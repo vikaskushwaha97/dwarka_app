@@ -1,0 +1,28 @@
+name: dwarka_app
+description: A Flutter app for a spect shop
+publish_to: 'none' # Remove this line if you plan to publish on pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.1.0
+  animations: ^2.0.11
+  flutter_svg: ^2.0.9
+  google_sign_in: ^7.1.1  # You can keep this if you plan to use Google login later
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/dwarka_logo.jpg

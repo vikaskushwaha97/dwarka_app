@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "592478190907",
+    "project_id": "dwarka-eyewear-app",
+    "storage_bucket": "dwarka-eyewear-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592478190907:android:a906840b568bb29a7dcb1e",
+        "android_client_info": {
+          "package_name": "com.dwarka.eyewear.dwarka_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592478190907-m0o3vb1ovea08umm00f901rrnulrspb2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dwarka.eyewear.dwarka_app",
+            "certificate_hash": "d46f02ad780d3f21f98bd58b663d37182587bab6"
+          }
+        },
+        {
+          "client_id": "592478190907-kcfch716a37fj9cjc60a7em864g6mo3v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjIkSQiXoBt31ow-2r9qrTzhxmg9di_Sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592478190907-kcfch716a37fj9cjc60a7em864g6mo3v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
