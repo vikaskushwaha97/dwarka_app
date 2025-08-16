@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // navigate to home screen  after 3 seconds
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/signin');
     });
   }
 
@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen>
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFF2F2F2), Color(0xFFF2F2F2)],
+            colors: [Color(0xFFEDEFEE), Color(0xFFEDEDEE)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -70,26 +70,39 @@ class _SplashScreenState extends State<SplashScreen>
                 // subtle card behind logo for premium feel (optional)
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.02),
-                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white.withValues(alpha:0.02),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withValues(alpha: 0.08),
                       blurRadius: 20,
-                      offset: Offset(0, 8),
+                      offset: const Offset(0, 8),
                     ),
                   ],
+                  borderRadius: BorderRadius.circular(20),
+                ), child: Center(
+                child: SizedBox(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.6,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.6,
+                  child: Image.asset(
+                    'assets/images/dwarka_logo.jpg',
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                child: Image.asset(
-                  'assets/images/dwarka_logo.jpg',
-                  width: MediaQuery.of(context).size.width * 0.42, // responsive size
-                  fit: BoxFit.contain,
-                ),
+              ),
+
               ),
             ),
           ),
         ),
       ),
+
     );
+
   }
 }
