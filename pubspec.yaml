@@ -16,7 +16,8 @@ dependencies:
   flutter_svg: ^2.0.9
   google_sign_in: ^7.1.1  # You can keep this if you plan to use Google login later
   font_awesome_flutter: ^10.7.0
-
+  iconsax: ^0.0.8 # ✅ Added properly here
+  flutter_rating: ^2.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -27,3 +28,6 @@ flutter:
 
   assets:
     - assets/images/dwarka_logo.jpg
+    - assets/images/categories/
+    - assets/images/icons/
+    - assets/images/products/
