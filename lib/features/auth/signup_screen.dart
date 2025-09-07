@@ -109,7 +109,7 @@ class SignupScreen extends StatelessWidget {
                             child: RichText(
                               text: TextSpan(
                                 style: TextStyle(
-                                  color: TextFieldTextColorColor,
+                                  color: TextFieldTextColor,
                                   fontSize: width > 600 ? 18 : 16,
                                   fontWeight: FontWeight.w500,
                                 ),

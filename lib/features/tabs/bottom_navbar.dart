@@ -1,4 +1,5 @@
 import 'package:dwarka_app/features/tabs/home_tab/home_screen.dart';
+import 'package:dwarka_app/features/tabs/profile_tab/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -16,7 +17,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     const HomeScreen(),
     const Placeholder(),
     Container(),
-    // const ProfileScreen(),
+    const ProfileScreen(),
   ];
   void _onItemTapped(int index) {
     setState(() {

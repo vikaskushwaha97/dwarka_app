@@ -1,5 +1,6 @@
 import 'package:dwarka_app/features/tabs/home_tab/all_category_list.dart';
 import 'package:dwarka_app/features/tabs/home_tab/category_details.dart';
+import 'package:dwarka_app/features/tabs/home_tab/product_screen.dart';
 import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,24 +50,24 @@ class HomeScreen extends StatelessWidget {
                   products: const [
                     Product(
                         title: 'Product 1',
-                        price: '\$56.25',
+                        price: '\₹985.25',
                         imagePath: 'assets/images/products/Product_1.png',
-                        crossPrice: '\$99.23'),
+                        crossPrice: '\₹699.23'),
                     Product(
                         title: 'Product 2',
-                        price: '\$56.25',
+                        price: '\₹956.25',
                         imagePath: 'assets/images/products/product_2.png',
-                        crossPrice: '\$99.23'),
+                        crossPrice: '\₹799.23'),
                     Product(
                         title: 'Product 3',
-                        price: '\$56.25',
+                        price: '\₹856.25',
                         imagePath: 'assets/images/products/product_3.png',
-                        crossPrice: '\$99.23'),
+                        crossPrice: '\₹699.23'),
                     Product(
                         title: 'Product 4',
-                        price: '\$56.25',
+                        price: '\₹756.25',
                         imagePath: 'assets/images/products/product_4.png',
-                        crossPrice: '\$99.23'),
+                        crossPrice: '\₹799.23'),
                   ],
                 ),
               ),
@@ -80,24 +81,24 @@ class HomeScreen extends StatelessWidget {
                   products: const [
                     Product(
                         title: 'Product 5',
-                        price: '\$56.25',
+                        price: '\₹768.25',
                         imagePath: 'assets/images/products/Product_1.png',
-                        crossPrice: '\$99.23'),
+                        crossPrice: '\₹929.23'),
                     Product(
                         title: 'Product 6',
-                        price: '\$56.25',
+                        price: '\₹856.25',
                         imagePath: 'assets/images/products/product_2.png',
-                        crossPrice: '\$99.23'),
+                        crossPrice: '\₹799.23'),
                     Product(
                         title: 'Product 4',
-                        price: '\$56.25',
+                        price: '\₹956.25',
                         imagePath: 'assets/images/products/product_3.png',
-                        crossPrice: '\$99.23'),
+                        crossPrice: '\₹799.23'),
                     Product(
                         title: 'Product 7',
-                        price: '\$56.25',
+                        price: '\₹756.25',
                         imagePath: 'assets/images/products/product_4.png',
-                        crossPrice: '\$99.23'),
+                        crossPrice: '\₹799.23'),
                   ],
                 ),
               ),
@@ -162,7 +163,7 @@ class SearchBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       placeholder: 'Search Products...',
       placeholderStyle: TextStyle(
-        color: TextFieldTextColorColor.withValues(alpha: 0.5),
+        color: TextFieldTextColor.withValues(alpha: 0.5),
         fontSize: 14,
       ),
       prefix: const Padding(
@@ -331,6 +332,7 @@ class Product {
 }
 ///================= Home Page Products(Product List) =================
 class ProductList extends StatelessWidget {
+
   final List<Product> products;
   const ProductList({super.key, required this.products});
 
@@ -386,6 +388,10 @@ class ProductList extends StatelessWidget {
               title: product.title,
               price: product.price,
               crossPrice: product.crossPrice,
+              onTap:(){
+                Navigator.push(context,CupertinoPageRoute(builder: (context) => ProductScreen(),
+                ));
+              } ,
 
               cardWidth: width < 400 ? 140.0 : 150.0, // reduced width
             );
@@ -476,7 +482,7 @@ class ProductCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: TextFieldTextColorColor.withValues(alpha: 0.8),
+                      color: TextFieldTextColor.withValues(alpha: 0.8),
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -494,7 +500,7 @@ class ProductCard extends StatelessWidget {
                       Text(
                         crossPrice,
                         style: TextStyle(
-                          color: TextFieldTextColorColor.withValues(alpha: 0.5),
+                          color: TextFieldTextColor.withValues(alpha: 0.5),
                           fontWeight: FontWeight.w500,
                           fontSize: 13,
                           decoration: TextDecoration.lineThrough,

@@ -12,80 +12,80 @@ class CategoryDetails extends StatelessWidget {
       backgroundColor: whiteColor,
       appBar: AppBar(
         backgroundColor: whiteColor,
-        title: Text(
+        title: const Text(
           'Mens(240)',
           style: TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         padding: EdgeInsets.only(top: 20, right: 5, bottom: 20, left: 20),
         child: ProductList(
           products: [
             Product(
               title: 'Product 1',
-              price: '\$56.25',
+              price: '\₹856.25',
               imagePath: 'assets/images/products/Product_1.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹799.23',
             ),
             Product(
               title: 'Product 2',
-              price: '\$56.25',
+              price: '\₹956.25',
               imagePath: 'assets/images/products/product_2.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹919.23',
             ),
             Product(
               title: 'Product 3',
-              price: '\$56.25',
+              price: '\₹856.25',
               imagePath: 'assets/images/products/product_3.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹799.23',
             ),
             Product(
               title: 'Product 4',
-              price: '\$56.25',
+              price: '\₹656.25',
               imagePath: 'assets/images/products/product_4.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹899.23',
             ),
             Product(
               title: 'Product 1',
-              price: '\$56.25',
+              price: '\₹956.25',
               imagePath: 'assets/images/products/Product_1.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹899.23',
             ),
             Product(
               title: 'Product 2',
-              price: '\$56.25',
+              price: '\₹756.25',
               imagePath: 'assets/images/products/product_2.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹959.23',
             ),
             Product(
               title: 'Product 3',
-              price: '\$56.25',
+              price: '\₹756.25',
               imagePath: 'assets/images/products/product_3.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹799.23',
             ),
             Product(
               title: 'Product 4',
-              price: '\$56.25',
+              price: '\₹856.25',
               imagePath: 'assets/images/products/product_4.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹699.23',
             ),
             Product(
               title: 'Product 2',
-              price: '\$56.25',
+              price: '\₹756.25',
               imagePath: 'assets/images/products/product_2.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹599.23',
             ),
             Product(
               title: 'Product 3',
-              price: '\$56.25',
+              price: '\₹756.25',
               imagePath: 'assets/images/products/product_3.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹999.23',
             ),
             Product(
               title: 'Product 4',
-              price: '\$56.25',
+              price: '\₹656.25',
               imagePath: 'assets/images/products/product_4.png',
-              crossPrice: '\$99.23',
+              crossPrice: '\₹899.23',
             ),
           ],
         ),
@@ -102,7 +102,7 @@ class ProductList extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 180, // ✅ compact grid like Amazon
         crossAxisSpacing: 8,     // tighter spacing
         mainAxisSpacing: 12,
