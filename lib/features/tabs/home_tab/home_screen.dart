@@ -1,10 +1,14 @@
 import 'package:dwarka_app/features/tabs/home_tab/all_category_list.dart';
 import 'package:dwarka_app/features/tabs/home_tab/category_details.dart';
 import 'package:dwarka_app/features/tabs/home_tab/product_screen.dart';
+import 'package:dwarka_app/features/tabs/cart_tab/cart_screen.dart';
+import 'package:dwarka_app/models/cart_item.dart';
+import 'package:dwarka_app/providers/cart_provider.dart';
 import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -139,13 +143,56 @@ class HeaderRow extends StatelessWidget {
             onChanged: (value) {},
             hint: const Text('Location'),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(Iconsax.bag_2, color: Colors.white, size: 22),
+          Consumer<CartProvider>(
+            builder: (context, cartProvider, child) {
+              return Stack(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CartScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Iconsax.bag_2, color: Colors.white, size: 22),
+                    ),
+                  ),
+                  if (cartProvider.itemCount > 0)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 20,
+                          minHeight: 20,
+                        ),
+                        child: Text(
+                          cartProvider.itemCount.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
           )
         ],
       ),
@@ -460,8 +507,32 @@ class ProductCard extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Iconsax.heart),
+                        onPressed: () {
+                          // Add to cart functionality
+                          final cartItem = CartItem(
+                            id: '${title}_${DateTime.now().millisecondsSinceEpoch}',
+                            title: title,
+                            imagePath: imagePath,
+                            price: double.parse(price.replaceAll('₹', '').replaceAll(',', '')),
+                            originalPrice: double.parse(crossPrice.replaceAll('₹', '').replaceAll(',', '')),
+                            quantity: 1,
+                          );
+                          context.read<CartProvider>().addItem(cartItem);
+                          
+                          // Show success snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('$title added to cart'),
+                              backgroundColor: primaryColor,
+                              duration: const Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          );
+                        },
+                        icon: Icon(Iconsax.box_add),
                         color: Colors.black87,
                         iconSize: 20,
                       ),
