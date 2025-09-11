@@ -1,0 +1,63 @@
+[1mdiff --git a/pubspec.lock b/pubspec.lock[m
+[1mindex 3168720..1106ef4 100644[m
+[1m--- a/pubspec.lock[m
+[1m+++ b/pubspec.lock[m
+[36m@@ -220,26 +220,26 @@[m [mpackages:[m
+     dependency: transitive[m
+     description:[m
+       name: leak_tracker[m
+[31m-      sha256: "6bb818ecbdffe216e81182c2f0714a2e62b593f4a4f13098713ff1685dfb6ab0"[m
+[32m+[m[32m      sha256: "33e2e26bdd85a0112ec15400c8cbffea70d0f9c3407491f672a2fad47915e2de"[m
+       url: "https://pub.dev"[m
+     source: hosted[m
+[31m-    version: "10.0.9"[m
+[32m+[m[32m    version: "11.0.2"[m
+   leak_tracker_flutter_testing:[m
+     dependency: transitive[m
+     description:[m
+       name: leak_tracker_flutter_testing[m
+[31m-      sha256: f8b613e7e6a13ec79cfdc0e97638fddb3ab848452eff057653abd3edba760573[m
+[32m+[m[32m      sha256: "1dbc140bb5a23c75ea9c4811222756104fbcd1a27173f0c34ca01e16bea473c1"[m
+       url: "https://pub.dev"[m
+     source: hosted[m
+[31m-    version: "3.0.9"[m
+[32m+[m[32m    version: "3.0.10"[m
+   leak_tracker_testing:[m
+     dependency: transitive[m
+     description:[m
+       name: leak_tracker_testing[m
+[31m-      sha256: "6ba465d5d76e67ddf503e1161d1f4a6bc42306f9d66ca1e8f079a47290fb06d3"[m
+[32m+[m[32m      sha256: "8d5a2d49f4a66b49744b23b018848400d23e54caf9463f4eb20df3eb8acb2eb1"[m
+       url: "https://pub.dev"[m
+     source: hosted[m
+[31m-    version: "3.0.1"[m
+[32m+[m[32m    version: "3.0.2"[m
+   lints:[m
+     dependency: transitive[m
+     description:[m
+[36m@@ -425,10 +425,10 @@[m [mpackages:[m
+     dependency: transitive[m
+     description:[m
+       name: test_api[m
+[31m-      sha256: fb31f383e2ee25fbbfe06b40fe21e1e458d14080e3c67e7ba0acfde4df4e0bbd[m
+[32m+[m[32m      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"[m
+       url: "https://pub.dev"[m
+     source: hosted[m
+[31m-    version: "0.7.4"[m
+[32m+[m[32m    version: "0.7.6"[m
+   typed_data:[m
+     dependency: transitive[m
+     description:[m
+[36m@@ -465,10 +465,10 @@[m [mpackages:[m
+     dependency: transitive[m
+     description:[m
+       name: vector_math[m
+[31m-      sha256: "80b3257d1492ce4d091729e3a67a60407d227c27241d6927be0130c98e741803"[m
+[32m+[m[32m      sha256: d530bd74fea330e6e364cda7a85019c434070188383e1cd8d9777ee586914c5b[m
+       url: "https://pub.dev"[m
+     source: hosted[m
+[31m-    version: "2.1.4"[m
+[32m+[m[32m    version: "2.2.0"[m
+   vm_service:[m
+     dependency: transitive[m
+     description:[m
