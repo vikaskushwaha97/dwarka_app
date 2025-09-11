@@ -1,10 +1,15 @@
 import 'package:dwarka_app/features/tabs/home_tab/all_category_list.dart';
 import 'package:dwarka_app/features/tabs/home_tab/category_details.dart';
 import 'package:dwarka_app/features/tabs/home_tab/product_screen.dart';
+import 'package:dwarka_app/features/tabs/cart_tab/cart_screen.dart';
+import 'package:dwarka_app/models/cart_item.dart';
+import 'package:dwarka_app/providers/cart_provider.dart';
 import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../theme/theme_utils.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -15,7 +20,7 @@ class HomeScreen extends StatelessWidget {
     final isWide = size.width > 800;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -139,13 +144,56 @@ class HeaderRow extends StatelessWidget {
             onChanged: (value) {},
             hint: const Text('Location'),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(Iconsax.bag_2, color: Colors.white, size: 22),
+          Consumer<CartProvider>(
+            builder: (context, cartProvider, child) {
+              return Stack(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CartScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Iconsax.bag_2, color: Colors.white, size: 22),
+                    ),
+                  ),
+                  if (cartProvider.itemCount > 0)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 20,
+                          minHeight: 20,
+                        ),
+                        child: Text(
+                          cartProvider.itemCount.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
           )
         ],
       ),
@@ -163,7 +211,7 @@ class SearchBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       placeholder: 'Search Products...',
       placeholderStyle: TextStyle(
-        color: TextFieldTextColor.withValues(alpha: 0.5),
+        color: textFieldPlaceholderColor(context),
         fontSize: 14,
       ),
       prefix: const Padding(
@@ -171,7 +219,7 @@ class SearchBar extends StatelessWidget {
         child: Icon(Iconsax.search_normal_1, size: 20),
       ),
       decoration: BoxDecoration(
-        color: textFieldColor,
+        color: textFieldBackgroundColor(context),
         borderRadius: BorderRadius.circular(40),
       ),
     );
@@ -204,10 +252,10 @@ class Section extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
-                fontSize: isWide ? 22 : 19,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontSize: isWide ? 22 : 19,
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             if (seeAll)
               GestureDetector (
@@ -305,10 +353,7 @@ class CategoryItem extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             )
           ],
@@ -460,8 +505,32 @@ class ProductCard extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Iconsax.heart),
+                        onPressed: () {
+                          // Add to cart functionality
+                          final cartItem = CartItem(
+                            id: '${title}_${DateTime.now().millisecondsSinceEpoch}',
+                            title: title,
+                            imagePath: imagePath,
+                            price: double.parse(price.replaceAll('₹', '').replaceAll(',', '')),
+                            originalPrice: double.parse(crossPrice.replaceAll('₹', '').replaceAll(',', '')),
+                            quantity: 1,
+                          );
+                          context.read<CartProvider>().addItem(cartItem);
+                          
+                          // Show success snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('$title added to cart'),
+                              backgroundColor: primaryColor,
+                              duration: const Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          );
+                        },
+                        icon: Icon(Iconsax.box_add),
                         color: Colors.black87,
                         iconSize: 20,
                       ),
@@ -479,11 +548,7 @@ class ProductCard extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: TextFieldTextColor.withValues(alpha: 0.8),
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 6),
                   Row(

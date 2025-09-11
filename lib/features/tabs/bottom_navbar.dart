@@ -3,7 +3,6 @@ import 'package:dwarka_app/features/tabs/profile_tab/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../utils/constant.dart';
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});
 
@@ -28,6 +27,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -61,8 +61,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: primaryColor,
-        backgroundColor: whiteColor,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+        backgroundColor: Theme.of(context).colorScheme.surface,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
       ),

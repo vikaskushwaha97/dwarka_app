@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/constant.dart';
+import '../../theme/theme_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
@@ -23,7 +26,9 @@ class ProfileScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 decoration: BoxDecoration(
-                  color: textFieldColor,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF1E1E1E)
+                      : textFieldColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -32,21 +37,21 @@ class ProfileScreen extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Vikas Kushwaha',
-                          style: TextStyle(
-                            color: blackColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'vikas@gmail.com',
-                          style: TextStyle(color: Colors.grey[700], fontSize: 14),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.75),
+                              ),
                         ),
                         Text(
                           '7588970296',
-                          style: TextStyle(color: Colors.grey[700], fontSize: 14),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.75),
+                              ),
                         ),
                       ],
                     ),
@@ -64,6 +69,28 @@ class ProfileScreen extends StatelessWidget {
               ProfileListTile(title: 'Help', pageRedirection: () {}),
               const SizedBox(height: 10),
               ProfileListTile(title: 'Support', pageRedirection: () {}),
+              const SizedBox(height: 12),
+              // App Theme selector tile → opens bottom sheet
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF1E1E1E)
+                      : textFieldColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ListTile(
+                  title: Text(
+                    'App Theme',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  subtitle: Text(
+                    _themeModeLabel(themeProvider.themeMode),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  trailing: const Icon(Iconsax.arrow_right_3),
+                  onTap: () => _showThemeBottomSheet(context, themeProvider),
+                ),
+              ),
               const SizedBox(height: 30),
               TextButton(
                 onPressed: () {},
@@ -83,6 +110,69 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
+String _themeModeLabel(ThemeMode mode) {
+  switch (mode) {
+    case ThemeMode.light:
+      return 'Light Theme';
+    case ThemeMode.dark:
+      return 'Dark Theme';
+    case ThemeMode.system:
+      return 'System Default';
+  }
+}
+
+void _showThemeBottomSheet(BuildContext context, ThemeProvider themeProvider) {
+  showModalBottomSheet(
+    context: context,
+    useSafeArea: true,
+    showDragHandle: true,
+    backgroundColor: Theme.of(context).colorScheme.surface,
+    builder: (ctx) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          RadioListTile<ThemeMode>(
+            title: const Text('Light Theme'),
+            value: ThemeMode.light,
+            groupValue: themeProvider.themeMode,
+            onChanged: (mode) {
+              if (mode != null) {
+                themeProvider.setThemeMode(mode);
+                Navigator.pop(ctx);
+              }
+            },
+          ),
+          const Divider(height: 1),
+          RadioListTile<ThemeMode>(
+            title: const Text('Dark Theme'),
+            value: ThemeMode.dark,
+            groupValue: themeProvider.themeMode,
+            onChanged: (mode) {
+              if (mode != null) {
+                themeProvider.setThemeMode(mode);
+                Navigator.pop(ctx);
+              }
+            },
+          ),
+          const Divider(height: 1),
+          RadioListTile<ThemeMode>(
+            title: const Text('System Default'),
+            value: ThemeMode.system,
+            groupValue: themeProvider.themeMode,
+            onChanged: (mode) {
+              if (mode != null) {
+                themeProvider.setThemeMode(mode);
+                Navigator.pop(ctx);
+              }
+            },
+          ),
+          const SizedBox(height: 8),
+        ],
+      );
+    },
+  );
+}
+
 class ProfileListTile extends StatelessWidget {
   final String title;
   final VoidCallback pageRedirection;
@@ -92,7 +182,9 @@ class ProfileListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: textFieldColor,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF1E1E1E)
+            : textFieldColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListTile(

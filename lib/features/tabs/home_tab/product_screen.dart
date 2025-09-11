@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 
 
 import '../../../utils/constant.dart';
+import '../../theme/theme_utils.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
@@ -13,9 +14,9 @@ class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: whiteColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         actions: [
           Container(
             padding: const EdgeInsets.only(right: 20),
@@ -38,13 +39,9 @@ class ProductScreen extends StatelessWidget {
               children: [
                 const ProductSlide(),
                 const SizedBox(height: 30),
-                const Text(
+                Text(
                   "Taarak Mehta Ka Ulta Chashma",
-                  style: TextStyle(
-                    color: blackColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const Text(
                   "₹.699",
@@ -59,18 +56,15 @@ class ProductScreen extends StatelessWidget {
                   padding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
-                    color: textFieldColor,
+                    color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Size',
-                        style: TextStyle(
-                          color: blackColor,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       GestureDetector(
                         onTap: () {},
@@ -98,18 +92,15 @@ class ProductScreen extends StatelessWidget {
                   padding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
-                    color: textFieldColor,
+                    color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Choose Your Lens',
-                        style: TextStyle(
-                          color: blackColor,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       GestureDetector(
                         onTap: () {},
@@ -138,18 +129,15 @@ class ProductScreen extends StatelessWidget {
                   padding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
-                    color: textFieldColor,
+                    color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Quantity',
-                        style: TextStyle(
-                          color: blackColor,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       GestureDetector(
                         onTap: () {},
@@ -195,20 +183,14 @@ class ProductScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Text(
+                Text(
                   'This is going to be the description of product.it must be changed afterwards',
-                  style: TextStyle(
-                    color: TextFieldTextColor,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'Shipping & Returns',
-                  style: TextStyle(
-                    color: blackColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 5),
                 const Text(
@@ -218,16 +200,12 @@ class ProductScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   '4.5 Ratings',
-                  style: TextStyle(
-                    color: blackColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 5),
-                const Text('213 Reviews'),
+                Text('213 Reviews', style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 20),
                 const ReviewSection(),
                 const SizedBox(height: 20),
@@ -324,12 +302,9 @@ class ReviewSection extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(width: 10),
-                const Text(
+                Text(
                   'Champak Chacha',
-                  style: TextStyle(
-                    color: blackColor,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -342,19 +317,14 @@ class ReviewSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 5),
-        const Text(
+        Text(
           'Gucci transcribes its heritage, creativity, and innovation into a plenitude of collections. From staple items to distinctive accessories.',
-          style: TextStyle(
-            color: TextFieldTextColor,
-          ),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         const SizedBox(height: 4),
-        const Text(
+        Text(
           '12 days ago',
-          style: TextStyle(
-            color: blackColor,
-            fontWeight: FontWeight.w500,
-          ),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
         ),
       ],
     );
