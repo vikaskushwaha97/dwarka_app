@@ -9,6 +9,8 @@ import '../../theme/theme_utils.dart';
 
 import 'order_summary.dart';
 
+// Cart screen: displays items in the user's cart, price breakdown,
+// and allows proceeding to checkout.
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
@@ -49,6 +51,7 @@ class CartScreen extends StatelessWidget {
             return const EmptyCartView();
           }
 
+          // Non-empty cart → show items list and summary footer
           return Column(
             children: [
               Expanded(
@@ -70,6 +73,7 @@ class CartScreen extends StatelessWidget {
   }
 }
 
+// Single cart item tile with image, details, price and quantity controls.
 class CartItemCard extends StatelessWidget {
   final CartItem item;
 
@@ -190,6 +194,7 @@ class CartItemCard extends StatelessWidget {
   }
 }
 
+// Reusable widget to increase/decrease quantity for a cart line item.
 class QuantityControls extends StatelessWidget {
   final CartItem item;
 

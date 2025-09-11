@@ -8,9 +8,6 @@ import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
-import '../../theme/theme_utils.dart';
-
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,7 +19,7 @@ class HomeScreen extends StatelessWidget {
     final isWide = size.width > 800;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -213,7 +210,7 @@ class SearchBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       placeholder: 'Search Products...',
       placeholderStyle: TextStyle(
-        color: textFieldPlaceholderColor(context),
+        color: TextFieldTextColor.withValues(alpha: 0.5),
         fontSize: 14,
       ),
       prefix: const Padding(
@@ -221,7 +218,7 @@ class SearchBar extends StatelessWidget {
         child: Icon(Iconsax.search_normal_1, size: 20),
       ),
       decoration: BoxDecoration(
-        color: textFieldBackgroundColor(context),
+        color: textFieldColor,
         borderRadius: BorderRadius.circular(40),
       ),
     );
@@ -254,10 +251,10 @@ class Section extends StatelessWidget {
           children: [
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: isWide ? 22 : 19,
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: TextStyle(
+                fontSize: isWide ? 22 : 19,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             if (seeAll)
               GestureDetector (
@@ -355,7 +352,10 @@ class CategoryItem extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
               textAlign: TextAlign.center,
             )
           ],
@@ -550,7 +550,11 @@ class ProductCard extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: TextFieldTextColor.withValues(alpha: 0.8),
+                    ),
                   ),
                   const SizedBox(height: 6),
                   Row(

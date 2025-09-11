@@ -1,3 +1,4 @@
+// Data model representing a single product added to the cart.
 class CartItem {
   final String id;
   final String title;
@@ -19,9 +20,11 @@ class CartItem {
     this.lensType = 'Standard',
   });
 
+  // Computed helpers used for price breakdowns
   double get totalPrice => price * quantity;
   double get savings => (originalPrice - price) * quantity;
 
+  // Utility to clone and modify specific fields
   CartItem copyWith({
     String? id,
     String? title,
