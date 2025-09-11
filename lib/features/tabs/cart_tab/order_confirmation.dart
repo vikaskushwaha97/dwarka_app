@@ -94,7 +94,11 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
+      backgroundColor: whiteColor,
+
       body: SafeArea(
         child: Consumer<CartProvider>(
           builder: (context, cartProvider, child) {
@@ -129,15 +133,29 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                     opacity: _fadeAnimation,
                     child: Column(
                       children: [
+
                         Text(
                           'Order Placed Successfully!',
                           style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+
+                        const Text(
+                          'Order Placed Successfully!',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: blackColor,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 12),
                         Text(
                           'Thank you for your purchase',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.8)),
+
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -171,6 +189,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                               Text(
                                 'Order ID',
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+
+                              const Text(
+                                'Order ID',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: blackColor,
+                                ),
                               ),
                               Text(
                                 orderId,
@@ -191,6 +217,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                               Text(
                                 'Total Amount',
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+
+                              const Text(
+                                'Total Amount',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: blackColor,
+                                ),
                               ),
                               Text(
                                 '₹${cartProvider.total.toStringAsFixed(0)}',
@@ -211,6 +245,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                               Text(
                                 'Items',
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+
+                              const Text(
+                                'Items',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: blackColor,
+                                ),
                               ),
                               Text(
                                 '${cartProvider.itemCount} items',
@@ -245,6 +287,13 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                                       Text(
                                         'Estimated Delivery',
                                         style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500),
+                                      const Text(
+                                        'Estimated Delivery',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: blackColor,
+                                        ),
                                       ),
                                       Text(
                                         '3-5 business days',

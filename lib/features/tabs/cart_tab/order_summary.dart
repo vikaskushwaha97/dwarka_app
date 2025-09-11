@@ -5,7 +5,9 @@ import '../../../models/address.dart';
 import '../../../providers/cart_provider.dart';
 import '../../../utils/constant.dart';
 import 'order_confirmation.dart';
+
 import '../../theme/theme_utils.dart';
+
 
 class OrderSummaryScreen extends StatefulWidget {
   const OrderSummaryScreen({super.key});
@@ -31,6 +33,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -41,6 +44,22 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
         ),
         leading: IconButton(
           icon: Icon(Iconsax.arrow_left_2, color: Theme.of(context).colorScheme.onBackground),
+
+      backgroundColor: whiteColor,
+      appBar: AppBar(
+        backgroundColor: whiteColor,
+        elevation: 0,
+        title: const Text(
+          'Order Summary',
+          style: TextStyle(
+            color: blackColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Iconsax.arrow_left_2, color: blackColor),
+
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -52,7 +71,11 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Delivery Address Section
+
                 SectionTitle(
+
+                const SectionTitle(
+
                   title: 'Delivery Address',
                   icon: Iconsax.location,
                 ),
@@ -61,7 +84,11 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                 const SizedBox(height: 32),
 
                 // Order Items Section
+
                 SectionTitle(
+
+                const SectionTitle(
+
                   title: 'Order Items',
                   icon: Iconsax.bag_2,
                 ),
@@ -70,7 +97,11 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                 const SizedBox(height: 32),
 
                 // Payment Method Section
+
                 SectionTitle(
+
+                const SectionTitle(
+
                   title: 'Payment Method',
                   icon: Iconsax.card,
                 ),
@@ -172,14 +203,26 @@ class SectionTitle extends StatelessWidget {
           ),
           child: Icon(
             icon,
+
             color: Theme.of(context).colorScheme.primary,
+
+            color: primaryColor,
+
             size: 20,
           ),
         ),
         const SizedBox(width: 12),
         Text(
           title,
+
           style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: blackColor,
+          ),
+
         ),
       ],
     );
@@ -244,12 +287,27 @@ class AddressCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             address.phone,
+
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.7)),
+
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+            ),
+
           ),
           const SizedBox(height: 8),
           Text(
             address.fullAddress,
+
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.4),
+
+            style: const TextStyle(
+              fontSize: 14,
+              color: blackColor,
+              height: 1.4,
+            ),
+
           ),
           const SizedBox(height: 12),
           TextButton(
@@ -507,11 +565,16 @@ class PriceSummary extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
+
         color: textFieldBackgroundColor(context),
+
+        color: textFieldColor,
+
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         children: [
+
           _buildPriceRow(context, 'Subtotal', cartProvider.subtotal),
           const SizedBox(height: 8),
           _buildPriceRow(context, 'Tax (18% GST)', cartProvider.tax),
@@ -522,6 +585,15 @@ class PriceSummary extends StatelessWidget {
           const Divider(height: 20),
           _buildPriceRow(
             context,
+          _buildPriceRow('Subtotal', cartProvider.subtotal),
+          const SizedBox(height: 8),
+          _buildPriceRow('Tax (18% GST)', cartProvider.tax),
+          if (cartProvider.totalSavings > 0) ...[
+            const SizedBox(height: 8),
+            _buildPriceRow('You Save', cartProvider.totalSavings, isSavings: true),
+          ],
+          const Divider(height: 20),
+          _buildPriceRow(
             'Total',
             cartProvider.total,
             isTotal: true,
@@ -532,6 +604,7 @@ class PriceSummary extends StatelessWidget {
   }
 
   Widget _buildPriceRow(BuildContext context, String label, double amount, {bool isTotal = false, bool isSavings = false}) {
+  Widget _buildPriceRow(String label, double amount, {bool isTotal = false, bool isSavings = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -542,13 +615,23 @@ class PriceSummary extends StatelessWidget {
                 fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
                 color: isSavings ? Colors.green : Theme.of(context).colorScheme.onBackground,
               ),
+
+          style: TextStyle(
+            fontSize: isTotal ? 16 : 14,
+            fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
+            color: isSavings ? Colors.green : blackColor,
+          ),
         ),
         Text(
           '₹${amount.toStringAsFixed(0)}',
           style: TextStyle(
             fontSize: isTotal ? 18 : 14,
             fontWeight: FontWeight.bold,
+
             color: isSavings ? Colors.green : (isTotal ? primaryColor : Theme.of(context).colorScheme.onBackground),
+
+            color: isSavings ? Colors.green : (isTotal ? primaryColor : blackColor),
+
           ),
         ),
       ],
