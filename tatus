@@ -1,0 +1,13 @@
+[33mb8da195[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/cart-fix[m[33m, [m[1;31morigin/feature/cart-fix[m[33m, [m[1;32mmain[m[33m)[m My local updates after stash pop
+[33m81f89d9[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #1 from Shreyashkhandar/main
+[33mdb5d4ec[m Merge branch 'main' into main
+[33m65f9825[m[33m ([m[1;32mpr-1[m[33m)[m Frontend MVP: Cart & Checkout Flow
+[33m6c94d70[m Frontend MVP: Cart & Checkout Flow
+[33mc93bd27[m Add profile_tab screens and update app features
+[33m4a483ef[m Project Progress: Added OTP screen, updated UI screens, product/category images
+[33m6143f15[m Added signin/signup screens, constants, Kotlin MainActivity, and updated configs
+[33ma2d2dae[m Apply .gitignore and remove unwanted files
+[33m41e1502[m Add correct .gitignore file
+[33mcbb0c71[m Remove wrong .gitigonre file
+[33mf0d17c4[m Add Flutter .gitignore
+[33m5e54cb1[m Initial commit - working splash screen
