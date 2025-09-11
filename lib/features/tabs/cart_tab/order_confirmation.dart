@@ -94,7 +94,11 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
       backgroundColor: whiteColor,
+
       body: SafeArea(
         child: Consumer<CartProvider>(
           builder: (context, cartProvider, child) {
@@ -129,6 +133,11 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                     opacity: _fadeAnimation,
                     child: Column(
                       children: [
+
+                        Text(
+                          'Order Placed Successfully!',
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+
                         const Text(
                           'Order Placed Successfully!',
                           style: TextStyle(
@@ -141,6 +150,8 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                         const SizedBox(height: 12),
                         Text(
                           'Thank you for your purchase',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.8)),
+
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey[600],
@@ -175,6 +186,10 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Text(
+                                'Order ID',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+
                               const Text(
                                 'Order ID',
                                 style: TextStyle(
@@ -199,6 +214,10 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Text(
+                                'Total Amount',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+
                               const Text(
                                 'Total Amount',
                                 style: TextStyle(
@@ -223,6 +242,10 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Text(
+                                'Items',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+
                               const Text(
                                 'Items',
                                 style: TextStyle(
@@ -261,6 +284,9 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      Text(
+                                        'Estimated Delivery',
+                                        style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500),
                                       const Text(
                                         'Estimated Delivery',
                                         style: TextStyle(

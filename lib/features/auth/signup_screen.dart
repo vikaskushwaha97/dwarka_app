@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../theme/theme_utils.dart';
 
 import '../../utils/constant.dart';
 
@@ -60,13 +61,13 @@ class SignupScreen extends StatelessWidget {
                           const SizedBox(height: 30),
 
                           // ==== TextFields ====
-                          _buildTextField('First Name'),
+                          _buildTextField(context, 'First Name'),
                           const SizedBox(height: 16),
-                          _buildTextField('Last Name'),
+                          _buildTextField(context, 'Last Name'),
                           const SizedBox(height: 16),
-                          _buildTextField('Phone Number'),
+                          _buildTextField(context, 'Phone Number'),
                           const SizedBox(height: 16),
-                          _buildTextField('Password', isPassword: true),
+                          _buildTextField(context, 'Password', isPassword: true),
 
                           const SizedBox(height: 30),
 
@@ -181,14 +182,14 @@ class SignupScreen extends StatelessWidget {
   }
 
   // ==== Styled TextField ====
-  Widget _buildTextField(String placeholder, {bool isPassword = false}) {
+  Widget _buildTextField(BuildContext context, String placeholder, {bool isPassword = false}) {
     return Container(
       decoration: BoxDecoration(
-        color: textFieldColor,
+        color: textFieldBackgroundColor(context),
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.15),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -199,10 +200,10 @@ class SignupScreen extends StatelessWidget {
         placeholder: placeholder,
         obscureText: isPassword,
         placeholderStyle: TextStyle(
-          color: Colors.black.withValues(alpha: 0.3),
+          color: textFieldPlaceholderColor(context),
         ),
         decoration: BoxDecoration(
-          color: textFieldColor,
+          color: textFieldBackgroundColor(context),
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),

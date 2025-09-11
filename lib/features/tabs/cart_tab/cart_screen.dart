@@ -5,6 +5,8 @@ import '../../../models/cart_item.dart';
 import '../../../providers/cart_provider.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/demo_data.dart';
+import '../../theme/theme_utils.dart';
+
 import 'order_summary.dart';
 
 class CartScreen extends StatelessWidget {
@@ -13,6 +15,17 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        title: Text(
+          'Shopping Cart',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        leading: IconButton(
+          icon: Icon(Iconsax.arrow_left_2, color: Theme.of(context).colorScheme.onBackground),
+
       backgroundColor: whiteColor,
       appBar: AppBar(
         backgroundColor: whiteColor,
@@ -99,6 +112,8 @@ class CartItemCard extends StatelessWidget {
               children: [
                 Text(
                   item.title,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -110,6 +125,8 @@ class CartItemCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Size: ${item.size} | ${item.lensType}',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.7)),
+
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey[600],
@@ -182,6 +199,7 @@ class QuantityControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        color: textFieldBackgroundColor(context),
         color: textFieldColor,
         borderRadius: BorderRadius.circular(8),
       ),
@@ -194,6 +212,10 @@ class QuantityControls extends StatelessWidget {
             },
             child: Container(
               padding: const EdgeInsets.all(8),
+              child: Icon(
+                Iconsax.minus,
+                size: 16,
+                color: Theme.of(context).colorScheme.onBackground,
               child: const Icon(
                 Iconsax.minus,
                 size: 16,
@@ -217,6 +239,10 @@ class QuantityControls extends StatelessWidget {
             },
             child: Container(
               padding: const EdgeInsets.all(8),
+              child: Icon(
+                Iconsax.add,
+                size: 16,
+                color: Theme.of(context).colorScheme.onBackground,
               child: const Icon(
                 Iconsax.add,
                 size: 16,
@@ -404,6 +430,9 @@ class EmptyCartView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
+          Text(
+            'Your cart is empty',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           const Text(
             'Your cart is empty',
             style: TextStyle(
@@ -415,6 +444,7 @@ class EmptyCartView extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             'Add some products to get started',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.7)),
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey[600],

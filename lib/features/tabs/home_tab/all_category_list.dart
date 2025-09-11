@@ -1,15 +1,14 @@
 import 'package:dwarka_app/features/tabs/home_tab/category_details.dart';
-import 'package:dwarka_app/features/tabs/home_tab/home_screen.dart';
-import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../theme/theme_utils.dart';
 class AllCategoryList extends StatelessWidget {
  const AllCategoryList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: CupertinoColors.white,
         title: Text(
@@ -117,7 +116,7 @@ class CategoryItemList extends StatelessWidget {
         margin:const EdgeInsets.symmetric(vertical: 10),
           padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
           decoration: BoxDecoration(
-            color: textFieldColor,
+            color: textFieldBackgroundColor(context),
             borderRadius: BorderRadius.circular(10.0),
 
           ),

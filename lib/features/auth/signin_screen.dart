@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../theme/theme_utils.dart';
 
 class SigninScreen extends StatelessWidget {
   const SigninScreen({super.key});
@@ -49,11 +50,11 @@ class SigninScreen extends StatelessWidget {
                         const SizedBox(height: 30),
 
                         // ==== Email Field ====
-                        _buildTextField('Email Address'),
+                        _buildTextField(context, 'Email Address'),
                         const SizedBox(height: 16),
 
                         // ==== Password Field ====
-                        _buildTextField('Password', isPassword: true),
+                        _buildTextField(context, 'Password', isPassword: true),
                         const SizedBox(height: 24),
 
                         // ==== Sign In Button ====
@@ -162,14 +163,14 @@ class SigninScreen extends StatelessWidget {
   }
 
   // ==== Reusable Styled TextField ====
-  Widget _buildTextField(String placeholder, {bool isPassword = false}) {
+  Widget _buildTextField(BuildContext context, String placeholder, {bool isPassword = false}) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: textFieldBackgroundColor(context),
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -180,10 +181,10 @@ class SigninScreen extends StatelessWidget {
         placeholder: placeholder,
         obscureText: isPassword,
         placeholderStyle: TextStyle(
-          color: Colors.black.withValues(alpha: 0.3),
+          color: textFieldPlaceholderColor(context),
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: textFieldBackgroundColor(context),
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),
