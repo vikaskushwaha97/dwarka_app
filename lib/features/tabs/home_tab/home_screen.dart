@@ -8,7 +8,9 @@ import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+
 import '../../theme/theme_utils.dart';
+
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -40,9 +42,12 @@ class HomeScreen extends StatelessWidget {
                 title: 'Categories',
                 seeAll: true,
                 child: CategoriesSection(isWide: isWide),
-                onSeeAllPressed:(){
-                  Navigator.push(context,CupertinoPageRoute(builder:(context)=>AllCategoryList(),
-                  ));
+                onSeeAllPressed: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const AllCategoryList(),
+                      ));
                 },
               ),
               const SizedBox(height: 36),
@@ -52,27 +57,27 @@ class HomeScreen extends StatelessWidget {
                 title: 'Top Selling',
                 seeAll: true,
                 child: ProductList(
-                  products: const [
+                  products: [
                     Product(
                         title: 'Product 1',
-                        price: '\₹985.25',
+                        price: '₹985.25',
                         imagePath: 'assets/images/products/Product_1.png',
-                        crossPrice: '\₹699.23'),
+                        crossPrice: '₹699.23'),
                     Product(
                         title: 'Product 2',
-                        price: '\₹956.25',
+                        price: '₹956.25',
                         imagePath: 'assets/images/products/product_2.png',
-                        crossPrice: '\₹799.23'),
+                        crossPrice: '₹799.23'),
                     Product(
                         title: 'Product 3',
-                        price: '\₹856.25',
+                        price: '₹856.25',
                         imagePath: 'assets/images/products/product_3.png',
-                        crossPrice: '\₹699.23'),
+                        crossPrice: '₹699.23'),
                     Product(
                         title: 'Product 4',
-                        price: '\₹756.25',
+                        price: '₹756.25',
                         imagePath: 'assets/images/products/product_4.png',
-                        crossPrice: '\₹799.23'),
+                        crossPrice: '₹799.23'),
                   ],
                 ),
               ),
@@ -83,27 +88,27 @@ class HomeScreen extends StatelessWidget {
                 title: 'New In',
                 seeAll: true,
                 child: ProductList(
-                  products: const [
+                  products: [
                     Product(
                         title: 'Product 5',
-                        price: '\₹768.25',
+                        price: '₹768.25',
                         imagePath: 'assets/images/products/Product_1.png',
-                        crossPrice: '\₹929.23'),
+                        crossPrice: '₹929.23'),
                     Product(
                         title: 'Product 6',
-                        price: '\₹856.25',
+                        price: '₹856.25',
                         imagePath: 'assets/images/products/product_2.png',
-                        crossPrice: '\₹799.23'),
+                        crossPrice: '₹799.23'),
                     Product(
                         title: 'Product 4',
-                        price: '\₹956.25',
+                        price: '₹956.25',
                         imagePath: 'assets/images/products/product_3.png',
-                        crossPrice: '\₹799.23'),
+                        crossPrice: '₹799.23'),
                     Product(
                         title: 'Product 7',
-                        price: '\₹756.25',
+                        price: '₹756.25',
                         imagePath: 'assets/images/products/product_4.png',
-                        crossPrice: '\₹799.23'),
+                        crossPrice: '₹799.23'),
                   ],
                 ),
               ),
@@ -159,11 +164,12 @@ class HeaderRow extends StatelessWidget {
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: primaryColor,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Iconsax.bag_2, color: Colors.white, size: 22),
+                      child: const Icon(Iconsax.bag_2,
+                          color: Colors.white, size: 22),
                     ),
                   ),
                   if (cartProvider.itemCount > 0)
@@ -253,13 +259,13 @@ class Section extends StatelessWidget {
             Text(
               title,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: isWide ? 22 : 19,
-                    fontWeight: FontWeight.bold,
-                  ),
+                fontSize: isWide ? 22 : 19,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             if (seeAll)
-              GestureDetector (
-                onTap:onSeeAllPressed ,
+              GestureDetector(
+                onTap: onSeeAllPressed,
                 child: const Text(
                   'See All',
                   style: TextStyle(
@@ -286,15 +292,29 @@ class CategoriesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categories = [
-      CategoryItem(imagePath: 'assets/images/categories/men_pic.png', label: 'Mens',onTap:(){
-        Navigator.push(context, CupertinoPageRoute(builder: (context) =>CategoryDetails(),));
-      },
+      CategoryItem(
+        imagePath: 'assets/images/categories/men_pic.png',
+        label: 'Mens',
+        onTap: () {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => CategoryDetails(),
+              ));
+        },
       ),
-      CategoryItem(imagePath: 'assets/images/categories/women_pic.png', label: 'Womens'),
-      CategoryItem(imagePath: 'assets/images/categories/kid_pic.png', label: 'Kids'),
-      CategoryItem(imagePath: 'assets/images/categories/men_pic.png', label: 'New Arrivals'),
-      CategoryItem(imagePath: 'assets/images/categories/men_pic.png', label: 'On Sale!'),
-      CategoryItem(imagePath: 'assets/images/categories/men_pic.png', label: 'Lens/accessories'),
+      const CategoryItem(
+          imagePath: 'assets/images/categories/women_pic.png', label: 'Womens'),
+      const CategoryItem(
+          imagePath: 'assets/images/categories/kid_pic.png', label: 'Kids'),
+      const CategoryItem(
+          imagePath: 'assets/images/categories/men_pic.png',
+          label: 'New Arrivals'),
+      const CategoryItem(
+          imagePath: 'assets/images/categories/men_pic.png', label: 'On Sale!'),
+      const CategoryItem(
+          imagePath: 'assets/images/categories/men_pic.png',
+          label: 'Lens/accessories'),
     ];
 
     if (isWide) {
@@ -306,7 +326,8 @@ class CategoriesSection extends StatelessWidget {
           itemCount: categories.length,
           itemBuilder: (context, index) {
             return SizedBox(
-              width: MediaQuery.of(context).size.width / 3, // 👈 3 items visible
+              width:
+              MediaQuery.of(context).size.width / 3, // 👈 3 items visible
               child: categories[index],
             );
           },
@@ -325,12 +346,12 @@ class CategoriesSection extends StatelessWidget {
   }
 }
 
-
 class CategoryItem extends StatelessWidget {
   final String imagePath;
   final String label;
   final VoidCallback? onTap;
-  const CategoryItem({super.key, required this.imagePath, required this.label, this.onTap});
+  const CategoryItem(
+      {super.key, required this.imagePath, required this.label, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +374,10 @@ class CategoryItem extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             )
           ],
@@ -375,9 +399,9 @@ class Product {
         required this.imagePath,
         required this.crossPrice});
 }
+
 ///================= Home Page Products(Product List) =================
 class ProductList extends StatelessWidget {
-
   final List<Product> products;
   const ProductList({super.key, required this.products});
 
@@ -433,10 +457,13 @@ class ProductList extends StatelessWidget {
               title: product.title,
               price: product.price,
               crossPrice: product.crossPrice,
-              onTap:(){
-                Navigator.push(context,CupertinoPageRoute(builder: (context) => ProductScreen(),
-                ));
-              } ,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const ProductScreen(),
+                    ));
+              },
 
               cardWidth: width < 400 ? 140.0 : 150.0, // reduced width
             );
@@ -447,21 +474,21 @@ class ProductList extends StatelessWidget {
   }
 }
 
-
 class ProductCard extends StatelessWidget {
   final String imagePath;
   final String title;
   final String price;
   final String crossPrice;
   final double cardWidth;
-  final VoidCallback?onTap;
+  final VoidCallback? onTap;
   const ProductCard(
       {super.key,
         required this.imagePath,
         required this.title,
         required this.price,
         required this.crossPrice,
-        required this.cardWidth, this.onTap});
+        required this.cardWidth,
+        this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -500,7 +527,7 @@ class ProductCard extends StatelessWidget {
                     top: 8,
                     right: 8,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white70,
                         shape: BoxShape.circle,
                       ),
@@ -511,12 +538,15 @@ class ProductCard extends StatelessWidget {
                             id: '${title}_${DateTime.now().millisecondsSinceEpoch}',
                             title: title,
                             imagePath: imagePath,
-                            price: double.parse(price.replaceAll('₹', '').replaceAll(',', '')),
-                            originalPrice: double.parse(crossPrice.replaceAll('₹', '').replaceAll(',', '')),
+                            price: double.parse(
+                                price.replaceAll('₹', '').replaceAll(',', '')),
+                            originalPrice: double.parse(crossPrice
+                                .replaceAll('₹', '')
+                                .replaceAll(',', '')),
                             quantity: 1,
                           );
                           context.read<CartProvider>().addItem(cartItem);
-                          
+
                           // Show success snackbar
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -530,7 +560,7 @@ class ProductCard extends StatelessWidget {
                             ),
                           );
                         },
-                        icon: Icon(Iconsax.box_add),
+                        icon: const Icon(Iconsax.box_add),
                         color: Colors.black87,
                         iconSize: 20,
                       ),
@@ -548,7 +578,10 @@ class ProductCard extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 6),
                   Row(

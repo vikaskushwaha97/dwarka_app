@@ -1,9 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:iconsax/iconsax.dart';
-
 
 import '../../../utils/constant.dart';
 import '../../theme/theme_utils.dart';
@@ -41,7 +39,10 @@ class ProductScreen extends StatelessWidget {
                 const SizedBox(height: 30),
                 Text(
                   "Taarak Mehta Ka Ulta Chashma",
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const Text(
                   "₹.699",
@@ -64,7 +65,10 @@ class ProductScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Size',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       GestureDetector(
                         onTap: () {},
@@ -100,7 +104,10 @@ class ProductScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Choose Your Lens',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       GestureDetector(
                         onTap: () {},
@@ -137,7 +144,10 @@ class ProductScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Quantity',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       GestureDetector(
                         onTap: () {},
@@ -190,22 +200,29 @@ class ProductScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text(
                   'Shipping & Returns',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 5),
                 const Text(
                   'Free standard shipping and free 60-day returns',
                   style: TextStyle(
-                    color: TextFieldTextColor ,
+                    color: TextFieldTextColor,
                   ),
                 ),
                 const SizedBox(height: 20),
                 Text(
                   '4.5 Ratings',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 5),
-                Text('213 Reviews', style: Theme.of(context).textTheme.bodyMedium),
+                Text('213 Reviews',
+                    style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 20),
                 const ReviewSection(),
                 const SizedBox(height: 20),
@@ -232,7 +249,7 @@ class ProductScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '\₹148',
+                    '₹148',
                     style: TextStyle(
                       color: whiteColor,
                       fontWeight: FontWeight.bold,
@@ -279,7 +296,6 @@ class ProductSlide extends StatelessWidget {
   }
 }
 
-
 class ReviewSection extends StatelessWidget {
   const ReviewSection({super.key});
 
@@ -304,7 +320,10 @@ class ReviewSection extends StatelessWidget {
                 const SizedBox(width: 10),
                 Text(
                   'Champak Chacha',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -324,7 +343,10 @@ class ReviewSection extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           '12 days ago',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall
+              ?.copyWith(fontWeight: FontWeight.w500),
         ),
       ],
     );
