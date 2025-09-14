@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
-import '../../theme/theme_utils.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_styles.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -36,12 +36,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Add Address'),
         centerTitle: true,
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -51,7 +48,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Address Type Selection
-              Text('Address Type', style: Theme.of(context).textTheme.titleLarge),
+              Text('Address Type', style: AppStyles.titleLarge),
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -83,21 +80,14 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               const SizedBox(height: 24),
 
               // Contact Information
-              Text('Contact Information', style: Theme.of(context).textTheme.titleLarge),
+              Text('Contact Information', style: AppStyles.titleLarge),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Full Name',
-                  prefixIcon: const Icon(Iconsax.user),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  prefixIcon: Icon(Icons.person_outline),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your name';
@@ -108,17 +98,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _phoneController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Phone Number',
-                  prefixIcon: const Icon(Iconsax.mobile),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  prefixIcon: Icon(Icons.phone_outlined),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.phone,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -133,21 +116,14 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               const SizedBox(height: 24),
 
               // Address Details
-              Text('Address Details', style: Theme.of(context).textTheme.titleLarge),
+              Text('Address Details', style: AppStyles.titleLarge),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _pincodeController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Pincode',
-                  prefixIcon: const Icon(Iconsax.map),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  prefixIcon: Icon(Icons.numbers_outlined),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -162,17 +138,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _addressController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Address (House No., Building, Street)',
-                  prefixIcon: const Icon(Iconsax.house),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  prefixIcon: Icon(Icons.home_work_outlined),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 maxLines: 2,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -184,32 +153,18 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _landmarkController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Landmark (Optional)',
-                  prefixIcon: const Icon(Iconsax.location),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  prefixIcon: Icon(Icons.place_outlined),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _cityController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'City',
-                  prefixIcon: const Icon(Iconsax.building),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  prefixIcon: Icon(Icons.location_city_outlined),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your city';
@@ -220,17 +175,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _stateController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'State',
-                  prefixIcon: const Icon(Iconsax.map_1),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  prefixIcon: Icon(Icons.map_outlined),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your state';
@@ -245,21 +193,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _saveAddress,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    'Save Address',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: const Text('Save Address'),
                 ),
               ),
             ],
@@ -272,21 +206,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   void _saveAddress() {
     if (_formKey.currentState!.validate()) {
       // Save address logic
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Address saved successfully!',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      );
       Navigator.pop(context);
     }
   }
@@ -312,17 +231,12 @@ class _AddressTypeButton extends StatelessWidget {
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: selected
-                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                : textFieldBackgroundColor(context),
+            color: selected ? AppColors.primary.withOpacity(0.1) : AppColors.cardBackground,
             border: Border.all(
-              color: selected
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.outline.withOpacity(0.3),
+              color: selected ? AppColors.primary : AppColors.border,
               width: selected ? 2 : 1,
             ),
             borderRadius: BorderRadius.circular(12),
@@ -331,18 +245,14 @@ class _AddressTypeButton extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: selected
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
+                color: selected ? AppColors.primary : AppColors.textSecondary,
                 size: 24,
               ),
               const SizedBox(height: 4),
               Text(
                 label,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: selected
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onBackground,
+                style: AppStyles.bodyMedium.copyWith(
+                  color: selected ? AppColors.primary : AppColors.textSecondary,
                   fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
                 ),
               ),

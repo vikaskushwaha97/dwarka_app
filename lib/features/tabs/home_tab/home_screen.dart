@@ -8,9 +8,9 @@ import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../theme/theme_utils.dart';
-
+import 'package:dwarka_app/models/product.dart' as model;
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -37,6 +37,10 @@ class HomeScreen extends StatelessWidget {
               const SearchBar(),
               const SizedBox(height: 36),
 
+              /// Banner Carousel
+              _BannerCarousel(),
+              const SizedBox(height: 36),
+
               /// Categories
               Section(
                 title: 'Categories',
@@ -53,62 +57,118 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 36),
 
               /// Top Selling
-              const Section(
+              Section(
                 title: 'Top Selling',
                 seeAll: true,
                 child: ProductList(
                   products: [
-                    Product(
-                        title: 'Product 1',
-                        price: '₹985.25',
-                        imagePath: 'assets/images/products/Product_1.png',
-                        crossPrice: '₹699.23'),
-                    Product(
-                        title: 'Product 2',
-                        price: '₹956.25',
-                        imagePath: 'assets/images/products/product_2.png',
-                        crossPrice: '₹799.23'),
-                    Product(
-                        title: 'Product 3',
-                        price: '₹856.25',
-                        imagePath: 'assets/images/products/product_3.png',
-                        crossPrice: '₹699.23'),
-                    Product(
-                        title: 'Product 4',
-                        price: '₹756.25',
-                        imagePath: 'assets/images/products/product_4.png',
-                        crossPrice: '₹799.23'),
+                    model.Product(
+                      id: '1',
+                      title: 'Product 1',
+                      description: 'Description for Product 1',
+                      images: ['assets/images/products/Product_1.png'],
+                      price: 985.25,
+                      crossPrice: 699.23,
+                      reviews: [],
+                      variants: [],
+                      category: 'Top Selling',
+                      rating: 4.5,
+                    ),
+                    model.Product(
+                      id: '2',
+                      title: 'Product 2',
+                      description: 'Description for Product 2',
+                      images: ['assets/images/products/product_2.png'],
+                      price: 956.25,
+                      crossPrice: 799.23,
+                      reviews: [],
+                      variants: [],
+                      category: 'Top Selling',
+                      rating: 4.2,
+                    ),
+                    model.Product(
+                      id: '3',
+                      title: 'Product 3',
+                      description: 'Description for Product 3',
+                      images: ['assets/images/products/product_3.png'],
+                      price: 856.25,
+                      crossPrice: 699.23,
+                      reviews: [],
+                      variants: [],
+                      category: 'Top Selling',
+                      rating: 4.0,
+                    ),
+                    model.Product(
+                      id: '4',
+                      title: 'Product 4',
+                      description: 'Description for Product 4',
+                      images: ['assets/images/products/product_4.png'],
+                      price: 756.25,
+                      crossPrice: 799.23,
+                      reviews: [],
+                      variants: [],
+                      category: 'Top Selling',
+                      rating: 3.8,
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 36),
 
               /// New In
-              const Section(
+              Section(
                 title: 'New In',
                 seeAll: true,
                 child: ProductList(
                   products: [
-                    Product(
-                        title: 'Product 5',
-                        price: '₹768.25',
-                        imagePath: 'assets/images/products/Product_1.png',
-                        crossPrice: '₹929.23'),
-                    Product(
-                        title: 'Product 6',
-                        price: '₹856.25',
-                        imagePath: 'assets/images/products/product_2.png',
-                        crossPrice: '₹799.23'),
-                    Product(
-                        title: 'Product 4',
-                        price: '₹956.25',
-                        imagePath: 'assets/images/products/product_3.png',
-                        crossPrice: '₹799.23'),
-                    Product(
-                        title: 'Product 7',
-                        price: '₹756.25',
-                        imagePath: 'assets/images/products/product_4.png',
-                        crossPrice: '₹799.23'),
+                    model.Product(
+                      id: '5',
+                      title: 'Product 5',
+                      description: 'Description for Product 5',
+                      images: ['assets/images/products/Product_1.png'],
+                      price: 768.25,
+                      crossPrice: 929.23,
+                      reviews: [],
+                      variants: [],
+                      category: 'New In',
+                      rating: 4.7,
+                    ),
+                    model.Product(
+                      id: '6',
+                      title: 'Product 6',
+                      description: 'Description for Product 6',
+                      images: ['assets/images/products/product_2.png'],
+                      price: 856.25,
+                      crossPrice: 799.23,
+                      reviews: [],
+                      variants: [],
+                      category: 'New In',
+                      rating: 4.3,
+                    ),
+                    model.Product(
+                      id: '4',
+                      title: 'Product 4',
+                      description: 'Description for Product 4',
+                      images: ['assets/images/products/product_3.png'],
+                      price: 956.25,
+                      crossPrice: 799.23,
+                      reviews: [],
+                      variants: [],
+                      category: 'New In',
+                      rating: 4.1,
+                    ),
+                    model.Product(
+                      id: '7',
+                      title: 'Product 7',
+                      description: 'Description for Product 7',
+                      images: ['assets/images/products/product_4.png'],
+                      price: 756.25,
+                      crossPrice: 799.23,
+                      reviews: [],
+                      variants: [],
+                      category: 'New In',
+                      rating: 3.9,
+                    ),
                   ],
                 ),
               ),
@@ -116,6 +176,116 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// ================= BANNER CAROUSEL =================
+class _BannerCarousel extends StatefulWidget {
+  @override
+  State<_BannerCarousel> createState() => _BannerCarouselState();
+}
+
+class _BannerCarouselState extends State<_BannerCarousel> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  final List<String> bannerImages = [
+    'assets/images/dwarka_logo.jpg',
+    'assets/images/products/Product_1.png',
+    'assets/images/products/product_2.png',
+    'assets/images/products/product_3.png',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Auto-scroll if there are multiple banners
+    if (bannerImages.length > 1) {
+      _startAutoScroll();
+    }
+  }
+
+  void _startAutoScroll() {
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted && bannerImages.length > 1) {
+        final nextPage = (_currentPage + 1) % bannerImages.length;
+        _pageController.animateToPage(
+          nextPage,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+        _startAutoScroll();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 180,
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: bannerImages.length,
+            onPageChanged: (index) {
+              setState(() {
+                _currentPage = index;
+              });
+            },
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: textFieldBackgroundColor(context),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    bannerImages[index],
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: textFieldBackgroundColor(context),
+                        child: const Icon(Icons.error_outline, size: 40),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        if (bannerImages.length > 1) ...[
+          const SizedBox(height: 16),
+          SmoothPageIndicator(
+            controller: _pageController,
+            count: bannerImages.length,
+            effect: ScrollingDotsEffect(
+              activeDotColor: Theme.of(context).colorScheme.primary,
+              dotColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.3),
+              dotHeight: 8,
+              dotWidth: 8,
+              spacing: 6,
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
@@ -227,6 +397,13 @@ class SearchBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: textFieldBackgroundColor(context),
         borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
     );
   }
@@ -266,12 +443,12 @@ class Section extends StatelessWidget {
             if (seeAll)
               GestureDetector(
                 onTap: onSeeAllPressed,
-                child: const Text(
+                child: Text(
                   'See All',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: Colors.blue,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               )
@@ -362,13 +539,28 @@ class CategoryItem extends StatelessWidget {
         margin: const EdgeInsets.only(right: 14),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(40),
-              child: Image.asset(
-                imagePath,
-                height: 65,
-                width: 65,
-                fit: BoxFit.cover,
+            Container(
+              width: 65,
+              height: 65,
+              decoration: BoxDecoration(
+                color: textFieldBackgroundColor(context),
+                borderRadius: BorderRadius.circular(40),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: Image.asset(
+                  imagePath,
+                  height: 65,
+                  width: 65,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(height: 6),
@@ -388,21 +580,12 @@ class CategoryItem extends StatelessWidget {
 }
 
 /// ================= PRODUCTS =================
-class Product {
-  final String imagePath;
-  final String title;
-  final String price;
-  final String crossPrice;
-  const Product(
-      {required this.title,
-        required this.price,
-        required this.imagePath,
-        required this.crossPrice});
-}
+
+// Legacy Product class removed. Use model.Product from models/product.dart
 
 ///================= Home Page Products(Product List) =================
 class ProductList extends StatelessWidget {
-  final List<Product> products;
+  final List<model.Product> products;
   const ProductList({super.key, required this.products});
 
   @override
@@ -429,16 +612,16 @@ class ProductList extends StatelessWidget {
               : 3, // 👈 adapt grid count by screen size
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
-          childAspectRatio: 0.9, // 👈 balanced so cards aren’t too tall/wide
+          childAspectRatio: 0.9, // 👈 balanced so cards aren't too tall/wide
         ),
         itemCount: products.length,
         itemBuilder: (context, index) {
           final product = products[index];
           return ProductCard(
-            imagePath: product.imagePath,
+            imagePath: product.images.isNotEmpty ? product.images[0] : '',
             title: product.title,
-            price: product.price,
-            crossPrice: product.crossPrice,
+            price: product.price.toString(),
+            crossPrice: product.crossPrice.toString(),
             cardWidth: cardWidth,
           );
         },
@@ -453,10 +636,10 @@ class ProductList extends StatelessWidget {
           itemBuilder: (context, index) {
             final product = products[index];
             return ProductCard(
-              imagePath: product.imagePath,
+              imagePath: product.images.isNotEmpty ? product.images[0] : '',
               title: product.title,
-              price: product.price,
-              crossPrice: product.crossPrice,
+              price: product.price.toString(),
+              crossPrice: product.crossPrice.toString(),
               onTap: () {
                 Navigator.push(
                     context,
@@ -464,7 +647,6 @@ class ProductList extends StatelessWidget {
                       builder: (context) => const ProductScreen(),
                     ));
               },
-
               cardWidth: width < 400 ? 140.0 : 150.0, // reduced width
             );
           },
@@ -481,14 +663,16 @@ class ProductCard extends StatelessWidget {
   final String crossPrice;
   final double cardWidth;
   final VoidCallback? onTap;
-  const ProductCard(
-      {super.key,
-        required this.imagePath,
-        required this.title,
-        required this.price,
-        required this.crossPrice,
-        required this.cardWidth,
-        this.onTap});
+
+  const ProductCard({
+    super.key,
+    required this.imagePath,
+    required this.title,
+    required this.price,
+    required this.crossPrice,
+    required this.cardWidth,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -502,7 +686,7 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
+              color: Colors.black.withOpacity(0.05),
               blurRadius: 12,
               offset: const Offset(0, 6),
             ),
@@ -598,7 +782,7 @@ class ProductCard extends StatelessWidget {
                       Text(
                         crossPrice,
                         style: TextStyle(
-                          color: TextFieldTextColor.withValues(alpha: 0.5),
+                          color: TextFieldTextColor.withOpacity(0.5),
                           fontWeight: FontWeight.w500,
                           fontSize: 13,
                           decoration: TextDecoration.lineThrough,

@@ -11,6 +11,7 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+// This file contains the widget and logic for displaying products in a category or search result.
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -55,7 +56,7 @@ class ProductScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
                     color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
@@ -94,7 +95,7 @@ class ProductScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
                     color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
@@ -134,7 +135,7 @@ class ProductScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
                     color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
