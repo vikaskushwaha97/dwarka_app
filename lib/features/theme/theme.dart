@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// In your theme.dart file
+
 
 /// Centralized light and dark theme definitions for the app.
 /// Extend here for future themes or custom color schemes.

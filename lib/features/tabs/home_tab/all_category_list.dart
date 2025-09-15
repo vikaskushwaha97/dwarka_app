@@ -1,6 +1,6 @@
-import 'package:dwarka_app/features/tabs/home_tab/category_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/theme_utils.dart';
 
 class AllCategoryList extends StatelessWidget {
@@ -8,97 +8,67 @@ class AllCategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-// This file contains the widget and logic for displaying all categories in the home tab.
     return Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(
-          backgroundColor: CupertinoColors.white,
-          title: Text(
-            'Shop By Categories',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-            ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: CupertinoColors.white,
+        title: Text(
+          'Shop By Categories',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              CategoryItemList(
-                imagePath: 'assets/images/categories/men_pic.png',
-                label: 'Mens',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => CategoryDetails(),
-                    ),
-                  );
-                },
-              ),
-              CategoryItemList(
-                imagePath: 'assets/images/categories/women_pic.png',
-                label: 'Womens',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => CategoryDetails(),
-                    ),
-                  );
-                },
-              ),
-              CategoryItemList(
-                imagePath: 'assets/images/categories/kid_pic.png',
-                label: 'Kid',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => CategoryDetails(),
-                    ),
-                  );
-                },
-              ),
-              CategoryItemList(
-                imagePath: 'assets/images/categories/men_pic.png',
-                label: 'Accesories',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => CategoryDetails(),
-                    ),
-                  );
-                },
-              ),
-              CategoryItemList(
-                imagePath: 'assets/images/categories/men_pic.png',
-                label: 'onSale!',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => CategoryDetails(),
-                    ),
-                  );
-                },
-              ),
-              CategoryItemList(
-                imagePath: 'assets/images/categories/men_pic.png',
-                label: '....',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => CategoryDetails(),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ));
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            CategoryItemList(
+              imagePath: 'assets/images/categories/men_pic.png',
+              label: 'Mens',
+              onTap: () {
+                context.push('/category/mens');
+              },
+            ),
+            CategoryItemList(
+              imagePath: 'assets/images/categories/women_pic.png',
+              label: 'Womens',
+              onTap: () {
+                context.push('/category/womens');
+              },
+            ),
+            CategoryItemList(
+              imagePath: 'assets/images/categories/kid_pic.png',
+              label: 'Kid',
+              onTap: () {
+                context.push('/category/kid');
+              },
+            ),
+            CategoryItemList(
+              imagePath: 'assets/images/categories/men_pic.png',
+              label: 'Accessories',
+              onTap: () {
+                context.push('/category/accessories');
+              },
+            ),
+            CategoryItemList(
+              imagePath: 'assets/images/categories/men_pic.png',
+              label: 'onSale!',
+              onTap: () {
+                context.push('/category/sale');
+              },
+            ),
+            CategoryItemList(
+              imagePath: 'assets/images/categories/men_pic.png',
+              label: '....',
+              onTap: () {
+                context.push('/category/other');
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -106,8 +76,13 @@ class CategoryItemList extends StatelessWidget {
   final String imagePath;
   final String label;
   final VoidCallback? onTap;
-  const CategoryItemList(
-      {super.key, required this.imagePath, required this.label, this.onTap});
+
+  const CategoryItemList({
+    super.key,
+    required this.imagePath,
+    required this.label,
+    this.onTap
+  });
 
   @override
   Widget build(BuildContext context) {

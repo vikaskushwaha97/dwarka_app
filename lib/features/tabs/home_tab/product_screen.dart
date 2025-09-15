@@ -2,20 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../utils/constant.dart';
 import '../../theme/theme_utils.dart';
 
 class ProductScreen extends StatelessWidget {
-  const ProductScreen({super.key});
+  final String productId; // Add productId parameter
+
+  const ProductScreen({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
-// This file contains the widget and logic for displaying products in a category or search result.
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(), // Use Go Router's pop method
+        ),
         actions: [
           Container(
             padding: const EdgeInsets.only(right: 20),
@@ -56,7 +62,7 @@ class ProductScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
                     color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
@@ -72,7 +78,10 @@ class ProductScreen extends StatelessWidget {
                             ?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          // Navigate to size selection screen
+                          context.push('/size-selection', extra: productId);
+                        },
                         child: const Row(
                           children: [
                             Text(
@@ -95,7 +104,7 @@ class ProductScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
                     color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
@@ -111,7 +120,10 @@ class ProductScreen extends StatelessWidget {
                             ?.copyWith(fontWeight: FontWeight.w500),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          // Navigate to lens selection screen
+                          context.push('/lens-selection', extra: productId);
+                        },
                         child: Row(
                           children: [
                             Container(
@@ -135,7 +147,7 @@ class ProductScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
                     color: textFieldBackgroundColor(context),
                     borderRadius: BorderRadius.circular(50),
@@ -265,7 +277,10 @@ class ProductScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              onPressed: () {},
+              onPressed: () {
+                // Navigate to cart or show success message
+                context.push('/cart');
+              },
             ),
           ),
         ),

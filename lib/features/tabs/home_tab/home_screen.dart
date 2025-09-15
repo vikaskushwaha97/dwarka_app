@@ -1,5 +1,4 @@
 import 'package:dwarka_app/features/tabs/home_tab/all_category_list.dart';
-import 'package:dwarka_app/features/tabs/home_tab/category_details.dart';
 import 'package:dwarka_app/features/tabs/home_tab/product_screen.dart';
 import 'package:dwarka_app/features/tabs/cart_tab/cart_screen.dart';
 import 'package:dwarka_app/models/cart_item.dart';
@@ -12,6 +11,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../theme/theme_utils.dart';
 import 'package:dwarka_app/models/product.dart' as model;
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -47,11 +47,7 @@ class HomeScreen extends StatelessWidget {
                 seeAll: true,
                 child: CategoriesSection(isWide: isWide),
                 onSeeAllPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => const AllCategoryList(),
-                      ));
+                  context.go('/categories');
                 },
               ),
               const SizedBox(height: 36),
@@ -309,7 +305,7 @@ class HeaderRow extends StatelessWidget {
           ),
           DropdownButton<String>(
             underline: const SizedBox(),
-            items: <String>['Services 1', 'Services 2', 'Services 3']
+            items: <String>['Sai Nagar', 'Rajapeth', 'Amravati']
                 .map((String value) {
               return DropdownMenuItem(
                 value: value,
@@ -325,12 +321,7 @@ class HeaderRow extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CartScreen(),
-                        ),
-                      );
+                      context.push('/cart');
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8),
@@ -416,12 +407,13 @@ class Section extends StatelessWidget {
   final Widget child;
   final VoidCallback? onSeeAllPressed;
 
-  const Section(
-      {super.key,
-        required this.title,
-        required this.seeAll,
-        required this.child,
-        this.onSeeAllPressed});
+  const Section({
+    super.key,
+    required this.title,
+    required this.seeAll,
+    required this.child,
+    this.onSeeAllPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -473,25 +465,44 @@ class CategoriesSection extends StatelessWidget {
         imagePath: 'assets/images/categories/men_pic.png',
         label: 'Mens',
         onTap: () {
-          Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => CategoryDetails(),
-              ));
+          context.push('/category/mens');
         },
       ),
-      const CategoryItem(
-          imagePath: 'assets/images/categories/women_pic.png', label: 'Womens'),
-      const CategoryItem(
-          imagePath: 'assets/images/categories/kid_pic.png', label: 'Kids'),
-      const CategoryItem(
-          imagePath: 'assets/images/categories/men_pic.png',
-          label: 'New Arrivals'),
-      const CategoryItem(
-          imagePath: 'assets/images/categories/men_pic.png', label: 'On Sale!'),
-      const CategoryItem(
-          imagePath: 'assets/images/categories/men_pic.png',
-          label: 'Lens/accessories'),
+      CategoryItem(
+        imagePath: 'assets/images/categories/women_pic.png',
+        label: 'Womens',
+        onTap: () {
+          context.push('/category/womens');
+        },
+      ),
+      CategoryItem(
+        imagePath: 'assets/images/categories/kid_pic.png',
+        label: 'Kids',
+        onTap: () {
+          context.push('/category/kid');
+        },
+      ),
+      CategoryItem(
+        imagePath: 'assets/images/categories/men_pic.png',
+        label: 'New Arrivals',
+        onTap: () {
+          context.push('/category/new-arrivals');
+        },
+      ),
+      CategoryItem(
+        imagePath: 'assets/images/categories/men_pic.png',
+        label: 'On Sale!',
+        onTap: () {
+          context.push('/category/sale');
+        },
+      ),
+      CategoryItem(
+        imagePath: 'assets/images/categories/men_pic.png',
+        label: 'Lens/accessories',
+        onTap: () {
+          context.push('/category/accessories');
+        },
+      ),
     ];
 
     if (isWide) {
@@ -527,8 +538,11 @@ class CategoryItem extends StatelessWidget {
   final String imagePath;
   final String label;
   final VoidCallback? onTap;
-  const CategoryItem(
-      {super.key, required this.imagePath, required this.label, this.onTap});
+  const CategoryItem({
+  super.key,
+  required this.imagePath,     required this.label,
+    this.onTap
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -581,8 +595,6 @@ class CategoryItem extends StatelessWidget {
 
 /// ================= PRODUCTS =================
 
-// Legacy Product class removed. Use model.Product from models/product.dart
-
 ///================= Home Page Products(Product List) =================
 class ProductList extends StatelessWidget {
   final List<model.Product> products;
@@ -623,6 +635,9 @@ class ProductList extends StatelessWidget {
             price: product.price.toString(),
             crossPrice: product.crossPrice.toString(),
             cardWidth: cardWidth,
+            onTap: () {
+              context.push('/product/${product.id}');
+            },
           );
         },
       );
@@ -641,11 +656,7 @@ class ProductList extends StatelessWidget {
               price: product.price.toString(),
               crossPrice: product.crossPrice.toString(),
               onTap: () {
-                Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => const ProductScreen(),
-                    ));
+                context.push('/product/${product.id}');
               },
               cardWidth: width < 400 ? 140.0 : 150.0, // reduced width
             );

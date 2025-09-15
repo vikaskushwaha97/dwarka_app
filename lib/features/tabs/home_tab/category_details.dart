@@ -3,9 +3,17 @@ import 'package:dwarka_app/models/product.dart' as model;
 import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryDetails extends StatelessWidget {
-  const CategoryDetails({super.key});
+  final String categoryName;
+  final int itemCount;
+
+  const CategoryDetails({
+    super.key,
+    required this.categoryName,
+    required this.itemCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +21,16 @@ class CategoryDetails extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: whiteColor,
-        title: const Text(
-          'Mens(240)',
-          style: TextStyle(fontWeight: FontWeight.w500),
+        title: Text(
+          '$categoryName($itemCount)',
+          style: const TextStyle(fontWeight: FontWeight.w500),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Use GoRouter to navigate back
+            context.pop();
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -31,7 +46,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 799.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 4.5,
             ),
             model.Product(
@@ -43,7 +58,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 919.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 4.2,
             ),
             model.Product(
@@ -55,7 +70,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 799.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 4.0,
             ),
             model.Product(
@@ -67,7 +82,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 899.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 3.8,
             ),
             model.Product(
@@ -79,7 +94,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 899.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 4.1,
             ),
             model.Product(
@@ -91,7 +106,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 959.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 4.0,
             ),
             model.Product(
@@ -103,7 +118,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 799.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 3.9,
             ),
             model.Product(
@@ -115,7 +130,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 699.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 4.2,
             ),
             model.Product(
@@ -127,7 +142,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 599.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 4.0,
             ),
             model.Product(
@@ -139,7 +154,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 999.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 3.8,
             ),
             model.Product(
@@ -151,7 +166,7 @@ class CategoryDetails extends StatelessWidget {
               crossPrice: 899.23,
               reviews: [],
               variants: [],
-              category: 'Mens',
+              category: categoryName,
               rating: 3.7,
             ),
           ],
@@ -189,8 +204,8 @@ class ProductList extends StatelessWidget {
           cardWidth: width < 400
               ? 135.0 // small phones (denser look)
               : width < 800
-                  ? 150.0 // tablets
-                  : 170.0, // desktops
+              ? 150.0 // tablets
+              : 170.0, // desktops
         );
       },
     );
