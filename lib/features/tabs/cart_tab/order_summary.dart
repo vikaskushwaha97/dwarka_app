@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../models/address.dart';
@@ -16,17 +17,6 @@ class OrderSummaryScreen extends StatefulWidget {
 
 class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
   String selectedPaymentMethod = 'UPI';
-  final Address selectedAddress = Address(
-    id: '1',
-    name: 'Vikas Kushwaha',
-    phone: '7588970296',
-    addressLine1: 'Sai Nagar, Sector 15',
-    addressLine2: 'Guruchhaya colony',
-    city: 'Badnera',
-    state: 'Maharashtra',
-    pincode:"444503",
-    isDefault: true,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +27,20 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
         elevation: 0,
         title: Text(
           'Order Summary',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
         leading: IconButton(
-          icon: Icon(Iconsax.arrow_left_2, color: Theme.of(context).colorScheme.onBackground),
+          icon: Icon(Iconsax.arrow_left_2,
+              color: Theme.of(context).colorScheme.onBackground),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Consumer<CartProvider>(
-        builder: (context, cartProvider, child) {
+      body: Consumer2<CartProvider, AddressProvider>(
+        builder: (context, cartProvider, addressProvider, child) {
+          final selectedAddress = addressProvider.defaultAddress;
+
           return SingleChildScrollView(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -57,7 +52,12 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                   icon: Iconsax.location,
                 ),
                 const SizedBox(height: 12),
-                AddressCard(address: selectedAddress),
+
+                if (selectedAddress != null)
+                  AddressCard(address: selectedAddress)
+                else
+                  const Text("No address selected. Please add one."),
+
                 const SizedBox(height: 32),
 
                 // Order Items Section
@@ -95,7 +95,14 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                   height: 56,
                   child: ElevatedButton(
                     onPressed: () {
-                      _placeOrder(context, cartProvider);
+                      if (selectedAddress == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text("Please select an address")),
+                        );
+                        return;
+                      }
+                      _placeOrder(context, cartProvider, selectedAddress);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor,
@@ -123,7 +130,8 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
     );
   }
 
-  void _placeOrder(BuildContext context, CartProvider cartProvider) {
+  void _placeOrder(
+      BuildContext context, CartProvider cartProvider, AddressModel address) {
     // Show loading dialog
     showDialog(
       context: context,
@@ -138,7 +146,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
     // Simulate order processing
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pop(context); // Close loading dialog
-      
+
       // Navigate to confirmation screen
       Navigator.pushReplacement(
         context,
@@ -187,7 +195,7 @@ class SectionTitle extends StatelessWidget {
 }
 
 class AddressCard extends StatelessWidget {
-  final Address address;
+  final AddressModel address;
 
   const AddressCard({super.key, required this.address});
 
@@ -250,11 +258,16 @@ class AddressCard extends StatelessWidget {
           Text(
             address.fullAddress,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.4),
-          ),
-          const SizedBox(height: 12),
+          ),const SizedBox(height: 12),
           TextButton(
-            onPressed: () {
-              // TODO: Navigate to address selection
+            onPressed: () async {
+              final selectedAddress = await context.pushNamed<AddressModel?>('addresses');
+
+              if (selectedAddress != null) {
+                // Handle the selected address
+                // For example, update your state or provider with the selected address
+                print('Selected address: ${selectedAddress.title}');
+              }
             },
             child: const Text(
               'Change Address',

@@ -1,5 +1,4 @@
-import 'package:dwarka_app/features/auth/otp_verification_screen.dart';
-import 'package:dwarka_app/features/auth/signup_screen.dart';
+
 import 'package:dwarka_app/utils/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
-import '../theme/theme_utils.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -17,39 +15,71 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
+  // Controllers for text input fields
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _phoneController = TextEditingController();
-  bool _isPasswordVisible = false;
-  bool _isLoading = false;
-  bool _usePhoneLogin = true;
+
+  bool _isPasswordVisible = false; // Toggle password visibility
+  bool _isLoading = false;         // Loading state for sign-in process
+  bool _usePhoneLogin = true;      // Toggle between phone and email login
 
   @override
   void dispose() {
+    // Clean up controllers to prevent memory leaks
     _emailController.dispose();
     _passwordController.dispose();
     _phoneController.dispose();
     super.dispose();
   }
 
+  /*
+  * SIGN IN METHOD
+  * Handles the authentication process based on selected login method
+  * For phone login: navigates to OTP verification screen
+  * For email login: directly navigates to home screen (simulated)
+  */
   void _signIn() async {
+    // Validate required fields based on login method
     if (_usePhoneLogin && _phoneController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please enter your phone number'),
+          backgroundColor: Colors.red[400],
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
       return;
     }
 
-    setState(() => _isLoading = true);
-    await Future.delayed(const Duration(seconds: 1));
-
-    if (_usePhoneLogin) context.go(
-      '/otp-verification',
-      extra: {'phoneNumber': _phoneController.text},
-    );
-    else {
-      // Email/password login - directly go to home
-      Navigator.pushReplacementNamed(context, '/home');
+    if (!_usePhoneLogin && (_emailController.text.isEmpty || _passwordController.text.isEmpty)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please fill all fields'),
+          backgroundColor: Colors.red[400],
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
     }
 
-    setState(() => _isLoading = false);
+    setState(() => _isLoading = true); // Show loading indicator
+
+    // Simulate network request delay
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (_usePhoneLogin) {
+      // Navigate to OTP verification screen for phone login
+      context.go(
+        '/otp-verification',
+        extra: {'phoneNumber': _phoneController.text},
+      );
+    } else {
+      // For email login, directly navigate to home (simulated authentication)
+      context.go('/home');
+    }
+
+    setState(() => _isLoading = false); // Hide loading indicator
   }
 
   @override
@@ -59,20 +89,20 @@ class _SigninScreenState extends State<SigninScreen> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF5085E1),
-              Color(0xFF0054D4),
-              Color(0xFF003A9B),
+              Color(0xFF5085E1), // Light blue
+              Color(0xFF0054D4), // Medium blue
+              Color(0xFF003A9B), // Dark blue
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: [0.1, 0.6, 1.0],
+            stops: [0.1, 0.6, 1.0], // Color distribution
           ),
         ),
         child: SafeArea(
           child: LayoutBuilder(
             builder: (context, constraints) {
               final width = constraints.maxWidth;
-              final isLargeScreen = width > 600;
+              final isLargeScreen = width > 600; // Responsive breakpoint
 
               return Center(
                 child: SingleChildScrollView(
@@ -82,7 +112,10 @@ class _SigninScreenState extends State<SigninScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Back Button
+                        /*
+                        * BACK BUTTON
+                        * Allows navigation back to previous screen
+                        */
                         Align(
                           alignment: Alignment.topLeft,
                           child: IconButton(
@@ -91,11 +124,11 @@ class _SigninScreenState extends State<SigninScreen> {
                           ),
                         ),
 
-                        // ==== Logo & Welcome Section ====
+                        // ==== LOGO & WELCOME SECTION ====
                         _buildWelcomeSection(isLargeScreen),
                         const SizedBox(height: 40),
 
-                        // ==== Login Card ====
+                        // ==== LOGIN CARD ====
                         Card(
                           elevation: 8,
                           shape: RoundedRectangleBorder(
@@ -116,24 +149,26 @@ class _SigninScreenState extends State<SigninScreen> {
                             ),
                             child: Column(
                               children: [
-                                // Login Method Toggle
+                                // Login Method Toggle (Phone/Email)
                                 _buildLoginMethodToggle(),
                                 const SizedBox(height: 20),
 
-                                // ==== Phone/Email Field ====
+                                // ==== PHONE/EMAIL FIELD ====
                                 _usePhoneLogin ? _buildPhoneField() : _buildEmailField(),
                                 const SizedBox(height: 20),
 
-                                // ==== Password Field (only for email login) ====
+                                // ==== PASSWORD FIELD (only for email login) ====
                                 if (!_usePhoneLogin) _buildPasswordField(),
                                 if (!_usePhoneLogin) const SizedBox(height: 16),
 
-                                // ==== Forgot Password (only for email login) ====
+                                // ==== FORGOT PASSWORD (only for email login) ====
                                 if (!_usePhoneLogin)
                                   Align(
                                     alignment: Alignment.centerRight,
                                     child: TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        // TODO: Implement forgot password functionality
+                                      },
                                       child: Text(
                                         'Forgot Password?',
                                         style: TextStyle(
@@ -146,15 +181,15 @@ class _SigninScreenState extends State<SigninScreen> {
                                   ),
                                 if (!_usePhoneLogin) const SizedBox(height: 24),
 
-                                // ==== Sign In Button ====
+                                // ==== SIGN IN BUTTON ====
                                 _buildSignInButton(isLargeScreen),
                                 const SizedBox(height: 32),
 
-                                // ==== Divider ====
+                                // ==== DIVIDER ====
                                 _buildDivider(),
                                 const SizedBox(height: 32),
 
-                                // ==== Social Buttons ====
+                                // ==== SOCIAL LOGIN BUTTONS ====
                                 _buildSocialButtons(),
                               ],
                             ),
@@ -162,7 +197,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         ),
                         const SizedBox(height: 32),
 
-                        // ==== Sign Up Prompt ====
+                        // ==== SIGN UP PROMPT ====
                         _buildSignUpPrompt(isLargeScreen),
                       ],
                     ),
@@ -176,6 +211,10 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * WELCOME SECTION WIDGET
+  * Displays app logo and welcome message
+  */
   Widget _buildWelcomeSection(bool isLargeScreen) {
     return Column(
       children: [
@@ -194,10 +233,14 @@ class _SigninScreenState extends State<SigninScreen> {
               width: isLargeScreen ? 80 : 60,
               height: isLargeScreen ? 80 : 60,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  Icon(Icons.photo, color: Colors.white, size: isLargeScreen ? 60 : 40),
             ),
           ),
         ),
         const SizedBox(height: 20),
+
+        // Welcome Title
         Text(
           'Welcome Back',
           style: TextStyle(
@@ -208,6 +251,8 @@ class _SigninScreenState extends State<SigninScreen> {
           ),
         ),
         const SizedBox(height: 8),
+
+        // Welcome Subtitle
         Text(
           'Sign in to continue your eyewear journey',
           style: TextStyle(
@@ -221,60 +266,71 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * LOGIN METHOD TOGGLE WIDGET
+  * Allows user to switch between phone and email login methods
+  */
   Widget _buildLoginMethodToggle() {
     return Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () => setState(() => _usePhoneLogin = true),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: _usePhoneLogin ? primaryColor : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'Phone',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: _usePhoneLogin ? Colors.white : Colors.grey[600],
-                      fontWeight: FontWeight.w600,
-                    ),
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          // Phone Login Option
+          Expanded(
+            child: GestureDetector(
+              onTap: () => setState(() => _usePhoneLogin = true),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: _usePhoneLogin ? primaryColor : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Phone',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: _usePhoneLogin ? Colors.white : Colors.grey[600],
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () => setState(() => _usePhoneLogin = false),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: !_usePhoneLogin ? primaryColor : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'Email',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: !_usePhoneLogin ? Colors.white : Colors.grey[600],
-                      fontWeight: FontWeight.w600,
-                    ),
+          ),
+
+          // Email Login Option
+          Expanded(
+            child: GestureDetector(
+              onTap: () => setState(() => _usePhoneLogin = false),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: !_usePhoneLogin ? primaryColor : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Email',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: !_usePhoneLogin ? Colors.white : Colors.grey[600],
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
-          ],
-        )
+          ),
+        ],
+      ),
     );
   }
 
+  /*
+  * PHONE INPUT FIELD WIDGET
+  * Text field for phone number input with validation
+  */
   Widget _buildPhoneField() {
     return TextFormField(
       controller: _phoneController,
@@ -302,6 +358,10 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * EMAIL INPUT FIELD WIDGET
+  * Text field for email address input with validation
+  */
   Widget _buildEmailField() {
     return TextFormField(
       controller: _emailController,
@@ -329,6 +389,10 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * PASSWORD INPUT FIELD WIDGET
+  * Text field for password input with visibility toggle
+  */
   Widget _buildPasswordField() {
     return TextFormField(
       controller: _passwordController,
@@ -365,6 +429,11 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * SIGN IN BUTTON WIDGET
+  * Primary action button for authentication
+  * Shows loading indicator during process
+  */
   Widget _buildSignInButton(bool isLargeScreen) {
     return SizedBox(
       width: double.infinity,
@@ -400,6 +469,10 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * DIVIDER WIDGET
+  * Visual separator with "or" text for social login options
+  */
   Widget _buildDivider() {
     return Row(
       children: [
@@ -430,6 +503,10 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * SOCIAL LOGIN BUTTONS WIDGET
+  * Provides alternative login options using social media accounts
+  */
   Widget _buildSocialButtons() {
     return Column(
       children: [
@@ -454,6 +531,10 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * INDIVIDUAL SOCIAL BUTTON WIDGET
+  * Reusable component for social login buttons
+  */
   Widget _buildSocialButton({
     required IconData icon,
     required Color color,
@@ -461,7 +542,8 @@ class _SigninScreenState extends State<SigninScreen> {
   }) {
     return OutlinedButton(
       onPressed: () {
-        Navigator.pushReplacementNamed(context, '/home');
+        // TODO: Implement social authentication
+        context.go('/home');
       },
       style: OutlinedButton.styleFrom(
         backgroundColor: Colors.white,
@@ -490,6 +572,10 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
+  /*
+  * SIGN UP PROMPT WIDGET
+  * Encourages new users to create an account
+  */
   Widget _buildSignUpPrompt(bool isLargeScreen) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -517,12 +603,8 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SignupScreen(),
-                    ),
-                  );
+                  // Navigate to sign up screen
+                  context.go('/signup');
                 },
             ),
           ],

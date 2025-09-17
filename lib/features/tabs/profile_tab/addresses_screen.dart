@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_styles.dart';
+import '../../../models/address.dart';
 
 class AddressesScreen extends StatelessWidget {
   const AddressesScreen({super.key});
@@ -10,63 +12,59 @@ class AddressesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Addresses'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              context.pushNamed('add-address');            },
-          ),
-        ],
+        title: const Text("My Addresses"),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Saved Addresses',
-              style: AppStyles.titleLarge,
+      body: Consumer<AddressProvider>(
+        builder: (context, addressProvider, child) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: AddressList(addresses: addressProvider.addresses),
+                ),
+                const SizedBox(height: 16),
+                const AddAddressButton(),
+              ],
             ),
-            SizedBox(height: 16),
-            Expanded(
-              child: AddressList(),
-            ),
-            SizedBox(height: 16),
-            AddAddressButton(),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 }
 
 class AddressList extends StatelessWidget {
-  const AddressList({super.key});
+  final List<AddressModel> addresses;
+
+  const AddressList({super.key, required this.addresses});
 
   @override
   Widget build(BuildContext context) {
-    final addresses = [
-      _AddressData(
-        title: 'Home Address',
-        address: '123 Main Street\nDwarka, New Delhi 110075',
-        isDefault: true,
-      ),
-      _AddressData(
-        title: 'Work Address',
-        address: '456 Office Road\nSector 12, Dwarka\nNew Delhi 110078',
-        isDefault: false,
-      ),
-      _AddressData(
-        title: 'Parents House',
-        address: '789 Family Avenue\nUttam Nagar\nNew Delhi 110059',
-        isDefault: false,
-      ),
-    ];
+    if (addresses.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.location_on_outlined,
+              size: 64,
+              color: AppColors.textSecondary,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No addresses saved',
+              style: AppStyles.bodyLarge.copyWith(color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Add your first address to get started',
+              style: AppStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+            ),
+          ],
+        ),
+      );
+    }
 
     return ListView.separated(
       itemCount: addresses.length,
@@ -74,9 +72,7 @@ class AddressList extends StatelessWidget {
       itemBuilder: (context, index) {
         final address = addresses[index];
         return AddressCard(
-          title: address.title,
-          address: address.address,
-          isDefault: address.isDefault,
+          address: address,
           onEdit: () => _handleEditAddress(context, address),
           onDelete: () => _handleDeleteAddress(context, address),
           onSetDefault: () => _handleSetDefaultAddress(context, address),
@@ -85,17 +81,11 @@ class AddressList extends StatelessWidget {
     );
   }
 
-  void _handleEditAddress(BuildContext context, _AddressData address) {
-    // TODO: Implement edit address functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Edit ${address.title}'),
-        duration: const Duration(seconds: 1),
-      ),
-    );
+  void _handleEditAddress(BuildContext context, AddressModel address) {
+    context.pushNamed('add-address', extra: address);
   }
 
-  void _handleDeleteAddress(BuildContext context, _AddressData address) {
+  void _handleDeleteAddress(BuildContext context, AddressModel address) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -109,6 +99,8 @@ class AddressList extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
+                final addressProvider = Provider.of<AddressProvider>(context, listen: false);
+                addressProvider.deleteAddress(address.id);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -128,8 +120,9 @@ class AddressList extends StatelessWidget {
     );
   }
 
-  void _handleSetDefaultAddress(BuildContext context, _AddressData address) {
-    // TODO: Implement set default address functionality
+  void _handleSetDefaultAddress(BuildContext context, AddressModel address) {
+    final addressProvider = Provider.of<AddressProvider>(context, listen: false);
+    addressProvider.setDefaultAddress(address.id);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${address.title} set as default'),
@@ -163,18 +156,14 @@ class AddAddressButton extends StatelessWidget {
 }
 
 class AddressCard extends StatelessWidget {
-  final String title;
-  final String address;
-  final bool isDefault;
+  final AddressModel address;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final VoidCallback onSetDefault;
 
   const AddressCard({
     super.key,
-    required this.title,
     required this.address,
-    required this.isDefault,
     required this.onEdit,
     required this.onDelete,
     required this.onSetDefault,
@@ -196,12 +185,12 @@ class AddressCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  title,
+                  address.title,
                   style: AppStyles.titleMedium.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (isDefault)
+                if (address.isDefault)
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
@@ -220,7 +209,29 @@ class AddressCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              address,
+              address.name,
+              style: AppStyles.bodyLarge.copyWith(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              address.phone,
+              style: AppStyles.bodyLarge,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              address.address,
+              style: AppStyles.bodyLarge,
+            ),
+            if (address.landmark.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(
+                'Landmark: ${address.landmark}',
+                style: AppStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+              ),
+            ],
+            const SizedBox(height: 4),
+            Text(
+              '${address.city}, ${address.state} - ${address.pincode}',
               style: AppStyles.bodyLarge,
             ),
             const SizedBox(height: 16),
@@ -250,7 +261,7 @@ class AddressCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                if (!isDefault)
+                if (!address.isDefault)
                   TextButton(
                     onPressed: onSetDefault,
                     style: TextButton.styleFrom(
@@ -269,16 +280,4 @@ class AddressCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class _AddressData {
-  final String title;
-  final String address;
-  final bool isDefault;
-
-  _AddressData({
-    required this.title,
-    required this.address,
-    required this.isDefault,
-  });
 }

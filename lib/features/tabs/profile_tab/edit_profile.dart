@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../theme/theme_utils.dart';
 import 'add_address_screen.dart';
-
-
- // Link to add_address.dart
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -18,12 +18,22 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController(text: 'Vikas Kushwaha');
-  final _emailController = TextEditingController(text: 'vikas@gmail.com');
-  final _phoneController = TextEditingController(text: '7588970296');
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
   XFile? _selectedImage;
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with current user data
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    _nameController.text = userProvider.name;
+    _emailController.text = userProvider.email;
+    _phoneController.text = userProvider.phone;
+  }
 
   @override
   void dispose() {
@@ -56,7 +66,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   void _saveProfile() {
     if (_formKey.currentState!.validate()) {
-      // Save profile logic here
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      // Update user data through provider
+      userProvider.updateProfile(
+        _nameController.text,
+        _emailController.text,
+        _phoneController.text,
+        imagePath: _selectedImage?.path,
+      );
+
+      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Profile updated successfully!'),
@@ -73,6 +93,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -107,6 +129,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       radius: 50,
                       backgroundImage: _selectedImage != null
                           ? FileImage(File(_selectedImage!.path)) as ImageProvider
+                          : userProvider.profileImagePath != null
+                          ? FileImage(File(userProvider.profileImagePath!)) as ImageProvider
                           : const AssetImage('assets/images/profile_img.png'),
                     ),
                     Positioned(
@@ -225,18 +249,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
                 backgroundColor: textFieldBackgroundColor(context),
               ),
+
               const SizedBox(height: 8),
               _ProfileActionTile(
                 icon: Iconsax.map,
                 title: 'Manage Addresses',
                 subtitle: 'View and edit your addresses',
                 onTap: () {
-                  // Navigate to address management screen
+                  context.push('/profile/addresses'); // Navigate to addresses screen
                 },
                 backgroundColor: textFieldBackgroundColor(context),
               ),
               const SizedBox(height: 24),
-
               // Account Preferences
               Text('Account Preferences', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 16),
@@ -245,7 +269,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 title: 'Change Password',
                 subtitle: 'Update your account password',
                 onTap: () {
-                  // Navigate to change password screen
+                  context.push('/profile/update-password'); // Changed to match GoRoute path
                 },
                 backgroundColor: textFieldBackgroundColor(context),
               ),
