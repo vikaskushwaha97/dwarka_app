@@ -1,10 +1,11 @@
 import 'dart:math';
+import 'package:dwarka_app/features/tabs/cart_tab/track_orderscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../providers/cart_provider.dart';
 import '../../../utils/constant.dart';
-import '../../tabs/bottom_navbar.dart';
 
 class OrderConfirmationScreen extends StatefulWidget {
   const OrderConfirmationScreen({super.key});
@@ -272,13 +273,25 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                     child: Column(
                       children: [
                         // Track Order Button
+
+                        const SizedBox(height: 16),
+                        // Track Order Button
                         SizedBox(
                           width: double.infinity,
                           height: 56,
                           child: ElevatedButton(
                             onPressed: () {
-                              // TODO: Navigate to order tracking
-                              _showComingSoonDialog(context, 'Order Tracking');
+                              // Navigate to order tracking screen
+                              // You'll need to pass actual order data here
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TrackOrderScreen(
+                                    orderId: "ORD123456", // Replace with actual order ID
+                                    estimatedDelivery: "Today, 3:00 PM", // Replace with actual estimated delivery
+                                  ),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: primaryColor,
@@ -304,9 +317,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                             ),
                           ),
                         ),
-                        
-                        const SizedBox(height: 16),
-                        
+                        // Back to Home Button
                         // Back to Home Button
                         SizedBox(
                           width: double.infinity,
@@ -314,14 +325,11 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                           child: OutlinedButton(
                             onPressed: () {
                               // Clear cart and navigate to home
+                              final cartProvider = Provider.of<CartProvider>(context, listen: false);
                               cartProvider.clearCart();
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const BottomNavbar(),
-                                ),
-                                (route) => false,
-                              );
+
+                              // Use GoRouter to navigate to home
+                              context.goNamed('home');
                             },
                             style: OutlinedButton.styleFrom(
                               foregroundColor: primaryColor,

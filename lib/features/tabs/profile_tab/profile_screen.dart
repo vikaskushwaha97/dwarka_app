@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_styles.dart';
 import '../../../../services/auth_services.dart';
+import '../../../providers/user_provider.dart';
 import '../../theme/theme_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -42,6 +45,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    // Add this line to get user data
+    final userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -57,18 +62,20 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('assets/images/profile_img.png'),
+                    backgroundImage: userProvider.profileImagePath != null
+                        ? FileImage(File(userProvider.profileImagePath!)) as ImageProvider
+                        : const AssetImage('assets/images/profile_img.png'),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Guest User',
+                    userProvider.name, // Use provider data
                     style: AppStyles.headlineMedium,
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'guest@example.com',
+                    userProvider.email, // Use provider data
                     style: AppStyles.bodyLarge.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -76,9 +83,9 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context.go('/signin');
+                      context.go('/profile/edit');
                     },
-                    child: const Text('Sign In'),
+                    child: const Text('Edit Profile'),
                   ),
                 ],
               ),

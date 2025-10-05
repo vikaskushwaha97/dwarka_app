@@ -12,58 +12,53 @@ class AllCategoryList extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: CupertinoColors.white,
-        title: Text(
+        title: const Text(
           'Shop By Categories',
           style: TextStyle(
             fontWeight: FontWeight.w500,
           ),
         ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            // Navigate back to Home (replace with your actual home route)
+            context.go('/home');
+          },
+        ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          children: [
+          children: const [
             CategoryItemList(
               imagePath: 'assets/images/categories/men_pic.png',
               label: 'Mens',
-              onTap: () {
-                context.push('/category/mens');
-              },
+              route: '/category/mens',
             ),
             CategoryItemList(
               imagePath: 'assets/images/categories/women_pic.png',
               label: 'Womens',
-              onTap: () {
-                context.push('/category/womens');
-              },
+              route: '/category/womens',
             ),
             CategoryItemList(
               imagePath: 'assets/images/categories/kid_pic.png',
-              label: 'Kid',
-              onTap: () {
-                context.push('/category/kid');
-              },
+              label: 'Kids',
+              route: '/category/kid',
             ),
             CategoryItemList(
               imagePath: 'assets/images/categories/men_pic.png',
               label: 'Accessories',
-              onTap: () {
-                context.push('/category/accessories');
-              },
+              route: '/category/accessories',
             ),
             CategoryItemList(
               imagePath: 'assets/images/categories/men_pic.png',
-              label: 'onSale!',
-              onTap: () {
-                context.push('/category/sale');
-              },
+              label: 'On Sale!',
+              route: '/category/sale',
             ),
             CategoryItemList(
               imagePath: 'assets/images/categories/men_pic.png',
-              label: '....',
-              onTap: () {
-                context.push('/category/other');
-              },
+              label: 'Others',
+              route: '/category/other',
             ),
           ],
         ),
@@ -75,19 +70,19 @@ class AllCategoryList extends StatelessWidget {
 class CategoryItemList extends StatelessWidget {
   final String imagePath;
   final String label;
-  final VoidCallback? onTap;
+  final String route;
 
   const CategoryItemList({
     super.key,
     required this.imagePath,
     required this.label,
-    this.onTap
+    required this.route,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => context.push(route),
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -106,12 +101,10 @@ class CategoryItemList extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(
-              width: 10.0,
-            ),
+            const SizedBox(width: 10.0),
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

@@ -14,50 +14,75 @@ class OTPVerificationScreen extends StatefulWidget {
 }
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
-  final List<TextEditingController> _otpControllers = List.generate(6, (index) => TextEditingController());
+  // Controllers and focus nodes for each of the 6 OTP digits
+  final List<TextEditingController> _otpControllers =
+  List.generate(6, (index) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
-  bool _isLoading = false;
-  int _resendTimer = 60;
-  late Timer _timer;
+
+  bool _isLoading = false; // Loading state for verification process
+  int _resendTimer = 60;   // Countdown timer for resend OTP functionality
+  late Timer _timer;       // Timer object for the countdown
 
   @override
   void initState() {
     super.initState();
-    _startResendTimer();
-    // Auto-focus first OTP field
+    _startResendTimer(); // Start the resend countdown timer
+
+    // Auto-focus first OTP field after a short delay
     Future.delayed(const Duration(milliseconds: 300), () {
       FocusScope.of(context).requestFocus(_focusNodes[0]);
     });
   }
 
+  /*
+  * START RESEND TIMER METHOD
+  * Initializes and starts a countdown timer for OTP resend functionality
+  * Timer counts down from 60 seconds and updates UI every second
+  */
   void _startResendTimer() {
-    _resendTimer = 60;
+    _resendTimer = 60; // Reset timer to 60 seconds
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_resendTimer == 0) {
-        timer.cancel();
+        timer.cancel(); // Stop timer when it reaches 0
       } else {
-        setState(() => _resendTimer--);
+        setState(() => _resendTimer--); // Decrement timer and update UI
       }
     });
   }
 
+  /*
+  * VERIFY OTP METHOD
+  * Validates and processes the entered OTP
+  * Simulates network request with a delay
+  * Navigates to home screen on successful verification
+  */
   void _verifyOTP() {
+    // Combine all OTP digits into a single string
     final otp = _otpControllers.map((controller) => controller.text).join();
+
+    // Only proceed if all 6 digits are entered
     if (otp.length == 6) {
-      setState(() => _isLoading = true);
-      // Simulate OTP verification
+      setState(() => _isLoading = true); // Show loading indicator
+
+      // Simulate OTP verification process (replace with actual API call)
       Future.delayed(const Duration(seconds: 2), () {
         setState(() => _isLoading = false);
-        context.go('/home'); // replaces current route with Home
+        context.go('/home'); // Navigate to home screen using GoRouter
       });
     }
   }
 
-
+  /*
+  * RESEND OTP METHOD
+  * Handles the OTP resend functionality
+  * Only works when the resend timer has expired
+  * Shows a success message when OTP is resent
+  */
   void _resendOTP() {
     if (_resendTimer == 0) {
-      _startResendTimer();
-      // Show success message
+      _startResendTimer(); // Restart the countdown timer
+
+      // Show success message using a SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('OTP sent successfully'),
@@ -71,32 +96,47 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     }
   }
 
+  /*
+  * ON OTP CHANGED METHOD
+  * Handles text input changes in OTP fields
+  * Automatically moves focus to next/previous field based on input
+  * Auto-submits form when all fields are filled
+  */
   void _onOTPChanged(int index, String value) {
+    // Move to next field if current field has a value
     if (value.isNotEmpty && index < 5) {
       FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
     }
+
+    // Move to previous field if current field is empty (backspace pressed)
     if (value.isEmpty && index > 0) {
       FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
     }
 
-    // Auto-submit when all fields are filled
+    // Auto-submit when all fields are filled (last field receives input)
     if (index == 5 && value.isNotEmpty) {
       final allFilled = _otpControllers.every((controller) => controller.text.isNotEmpty);
       if (allFilled) {
-        _verifyOTP();
+        _verifyOTP(); // Initiate OTP verification
       }
     }
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    // Clean up resources to prevent memory leaks
+    _timer.cancel(); // Cancel the timer
+
+    // Dispose all text editing controllers
     for (var controller in _otpControllers) {
       controller.dispose();
     }
+
+    // Dispose all focus nodes
     for (var node in _focusNodes) {
       node.dispose();
     }
+
     super.dispose();
   }
 
@@ -107,13 +147,13 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF5085E1),
-              Color(0xFF0054D4),
-              Color(0xFF003A9B),
+              Color(0xFF5085E1), // Light blue
+              Color(0xFF0054D4), // Medium blue
+              Color(0xFF003A9B), // Dark blue
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: [0.1, 0.6, 1.0],
+            stops: [0.1, 0.6, 1.0], // Color distribution
           ),
         ),
         child: SafeArea(
@@ -122,25 +162,35 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Back Button
+                /*
+                * BACK BUTTON
+                * Allows user to navigate back to previous screen
+                */
                 IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () => Navigator.pop(context),
                 ),
 
+                // Main content area
                 Expanded(
                   child: Center(
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // OTP Icon
+                          /*
+                          * OTP ICON
+                          * Visual indicator for OTP verification process
+                          */
                           Container(
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.1),
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white.withOpacity(0.2), width: 2),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.2),
+                                width: 2,
+                              ),
                             ),
                             child: const Icon(
                               Iconsax.sms,
@@ -150,7 +200,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           ),
                           const SizedBox(height: 30),
 
-                          // Title
+                          /*
+                          * TITLE
+                          * Screen title indicating the purpose
+                          */
                           Text(
                             'Verify OTP',
                             style: TextStyle(
@@ -161,7 +214,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           ),
                           const SizedBox(height: 10),
 
-                          // Description
+                          /*
+                          * DESCRIPTION
+                          * Instructions for the user with phone number display
+                          */
                           Text(
                             'Enter the 6-digit code sent to\n${widget.phoneNumber}',
                             textAlign: TextAlign.center,
@@ -172,7 +228,11 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           ),
                           const SizedBox(height: 40),
 
-                          // OTP Input Fields
+                          /*
+                          * OTP INPUT FIELDS
+                          * Six individual text fields for OTP digits
+                          * Auto-focus moves between fields as user types
+                          */
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: List.generate(6, (index) {
@@ -183,14 +243,14 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                   focusNode: _focusNodes[index],
                                   textAlign: TextAlign.center,
                                   keyboardType: TextInputType.number,
-                                  maxLength: 1,
+                                  maxLength: 1, // Limit to single character
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
                                   decoration: InputDecoration(
-                                    counterText: '',
+                                    counterText: '', // Hide character counter
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.1),
                                     border: OutlineInputBorder(
@@ -219,7 +279,11 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           ),
                           const SizedBox(height: 40),
 
-                          // Verify Button
+                          /*
+                          * VERIFY BUTTON
+                          * Primary action button to verify the entered OTP
+                          * Shows loading indicator during verification process
+                          */
                           SizedBox(
                             width: double.infinity,
                             height: 54,
@@ -253,7 +317,11 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           ),
                           const SizedBox(height: 24),
 
-                          // Resend OTP
+                          /*
+                          * RESEND OTP SECTION
+                          * Allows user to request a new OTP after timer expires
+                          * Shows countdown when timer is active
+                          */
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -267,9 +335,13 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                               GestureDetector(
                                 onTap: _resendTimer == 0 ? _resendOTP : null,
                                 child: Text(
-                                  _resendTimer == 0 ? 'Resend' : 'Resend in $_resendTimer',
+                                  _resendTimer == 0
+                                      ? 'Resend'
+                                      : 'Resend in $_resendTimer',
                                   style: TextStyle(
-                                    color: _resendTimer == 0 ? Colors.white : Colors.white.withOpacity(0.6),
+                                    color: _resendTimer == 0
+                                        ? Colors.white
+                                        : Colors.white.withOpacity(0.6),
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                   ),

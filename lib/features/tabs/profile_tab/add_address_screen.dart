@@ -1,9 +1,14 @@
+// add_address_screen.dart - Complete implementation with form
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
-import '../../theme/theme_utils.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../models/address.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({super.key});
+  final AddressModel? editAddress;
+
+  const AddAddressScreen({super.key, this.editAddress});
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();
@@ -19,7 +24,29 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   final _cityController = TextEditingController();
   final _stateController = TextEditingController();
 
-  String _addressType = 'home';
+  String _selectedType = 'home';
+  String _title = 'Home Address';
+  bool _isDefault = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Pre-fill form if editing
+    if (widget.editAddress != null) {
+      final address = widget.editAddress!;
+      _nameController.text = address.name;
+      _phoneController.text = address.phone;
+      _pincodeController.text = address.pincode;
+      _addressController.text = address.address;
+      _landmarkController.text = address.landmark;
+      _cityController.text = address.city;
+      _stateController.text = address.state;
+      _selectedType = address.type;
+      _title = address.title;
+      _isDefault = address.isDefault;
+    }
+  }
 
   @override
   void dispose() {
@@ -33,71 +60,86 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     super.dispose();
   }
 
+  void _updateTitle(String type) {
+    setState(() {
+      _selectedType = type;
+      switch (type) {
+        case 'home':
+          _title = 'Home Address';
+          break;
+        case 'work':
+          _title = 'Work Address';
+          break;
+        case 'other':
+          _title = 'Other Address';
+          break;
+      }
+    });
+  }
+
+  void _saveAddress() {
+    if (_formKey.currentState!.validate()) {
+      final addressProvider = Provider.of<AddressProvider>(context, listen: false);
+      final newAddress = AddressModel(
+        id: widget.editAddress?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+        type: _selectedType,
+        title: _title,
+        name: _nameController.text,
+        phone: _phoneController.text,
+        pincode: _pincodeController.text,
+        address: _addressController.text,
+        landmark: _landmarkController.text,
+        city: _cityController.text,
+        state: _stateController.text,
+        isDefault: _isDefault,
+      );
+
+      if (widget.editAddress != null) {
+        addressProvider.updateAddress(widget.editAddress!.id, newAddress);
+      } else {
+        addressProvider.addAddress(newAddress);
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(widget.editAddress != null ? 'Address updated' : 'Address added'),
+          backgroundColor: AppColors.success,
+        ),
+      );
+
+      context.pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Add Address'),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+        title: Text(widget.editAddress != null ? "Edit Address" : "Add Address"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: _saveAddress,
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: [
               // Address Type Selection
-              Text('Address Type', style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  _AddressTypeButton(
-                    type: 'home',
-                    label: 'Home',
-                    icon: Icons.home_outlined,
-                    selected: _addressType == 'home',
-                    onTap: () => setState(() => _addressType = 'home'),
-                  ),
-                  const SizedBox(width: 12),
-                  _AddressTypeButton(
-                    type: 'work',
-                    label: 'Work',
-                    icon: Icons.work_outline,
-                    selected: _addressType == 'work',
-                    onTap: () => setState(() => _addressType = 'work'),
-                  ),
-                  const SizedBox(width: 12),
-                  _AddressTypeButton(
-                    type: 'other',
-                    label: 'Other',
-                    icon: Icons.location_on_outlined,
-                    selected: _addressType == 'other',
-                    onTap: () => setState(() => _addressType = 'other'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
+              _buildTypeSelector(),
+              const SizedBox(height: 20),
 
-              // Contact Information
-              Text('Contact Information', style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 12),
+              // Name Field
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Full Name',
-                  prefixIcon: const Icon(Iconsax.user),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  border: OutlineInputBorder(),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your name';
@@ -106,19 +148,14 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 },
               ),
               const SizedBox(height: 16),
+
+              // Phone Field
               TextFormField(
                 controller: _phoneController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Phone Number',
-                  prefixIcon: const Icon(Iconsax.mobile),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  border: OutlineInputBorder(),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.phone,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -130,24 +167,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
 
-              // Address Details
-              Text('Address Details', style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 12),
+              // Pincode Field
               TextFormField(
                 controller: _pincodeController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Pincode',
-                  prefixIcon: const Icon(Iconsax.map),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  border: OutlineInputBorder(),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -160,20 +188,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 },
               ),
               const SizedBox(height: 16),
+
+              // Address Field
               TextFormField(
                 controller: _addressController,
-                decoration: InputDecoration(
-                  labelText: 'Address (House No., Building, Street)',
-                  prefixIcon: const Icon(Iconsax.house),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                decoration: const InputDecoration(
+                  labelText: 'Address',
+                  border: OutlineInputBorder(),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
-                maxLines: 2,
+                maxLines: 3,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your address';
@@ -182,34 +205,24 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 },
               ),
               const SizedBox(height: 16),
+
+              // Landmark Field
               TextFormField(
                 controller: _landmarkController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Landmark (Optional)',
-                  prefixIcon: const Icon(Iconsax.location),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  border: OutlineInputBorder(),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 16),
+
+              // City Field
               TextFormField(
                 controller: _cityController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'City',
-                  prefixIcon: const Icon(Iconsax.building),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  border: OutlineInputBorder(),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your city';
@@ -218,19 +231,14 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 },
               ),
               const SizedBox(height: 16),
+
+              // State Field
               TextFormField(
                 controller: _stateController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'State',
-                  prefixIcon: const Icon(Iconsax.map_1),
-                  filled: true,
-                  fillColor: textFieldBackgroundColor(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  border: OutlineInputBorder(),
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your state';
@@ -238,29 +246,24 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
+
+              // Default Address Checkbox
+              CheckboxListTile(
+                title: const Text('Set as default address'),
+                value: _isDefault,
+                onChanged: (value) {
+                  setState(() {
+                    _isDefault = value ?? false;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
 
               // Save Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _saveAddress,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    'Save Address',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              ElevatedButton(
+                onPressed: _saveAddress,
+                child: Text(widget.editAddress != null ? 'Update Address' : 'Save Address'),
               ),
             ],
           ),
@@ -269,86 +272,62 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     );
   }
 
-  void _saveAddress() {
-    if (_formKey.currentState!.validate()) {
-      // Save address logic
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Address saved successfully!',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+  Widget _buildTypeSelector() {
+    return Row(
+      children: [
+        _TypeChip(
+          label: 'Home',
+          icon: Icons.home,
+          isSelected: _selectedType == 'home',
+          onSelected: () => _updateTitle('home'),
         ),
-      );
-      Navigator.pop(context);
-    }
+        const SizedBox(width: 10),
+        _TypeChip(
+          label: 'Work',
+          icon: Icons.work,
+          isSelected: _selectedType == 'work',
+          onSelected: () => _updateTitle('work'),
+        ),
+        const SizedBox(width: 10),
+        _TypeChip(
+          label: 'Other',
+          icon: Icons.location_on,
+          isSelected: _selectedType == 'other',
+          onSelected: () => _updateTitle('other'),
+        ),
+      ],
+    );
   }
 }
 
-class _AddressTypeButton extends StatelessWidget {
-  final String type;
+class _TypeChip extends StatelessWidget {
   final String label;
   final IconData icon;
-  final bool selected;
-  final VoidCallback onTap;
+  final bool isSelected;
+  final VoidCallback onSelected;
 
-  const _AddressTypeButton({
-    required this.type,
+  const _TypeChip({
     required this.label,
     required this.icon,
-    required this.selected,
-    required this.onTap,
+    required this.isSelected,
+    required this.onSelected,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: selected
-                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                : textFieldBackgroundColor(context),
-            border: Border.all(
-              color: selected
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.outline.withOpacity(0.3),
-              width: selected ? 2 : 1,
-            ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            children: [
-              Icon(
-                icon,
-                color: selected
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
-                size: 24,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: selected
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onBackground,
-                  fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
+    return ChoiceChip(
+      label: Row(
+        children: [
+          Icon(icon, size: 16),
+          const SizedBox(width: 4),
+          Text(label),
+        ],
+      ),
+      selected: isSelected,
+      onSelected: (_) => onSelected(),
+      selectedColor: AppColors.primary,
+      labelStyle: TextStyle(
+        color: isSelected ? Colors.white : null,
       ),
     );
   }
