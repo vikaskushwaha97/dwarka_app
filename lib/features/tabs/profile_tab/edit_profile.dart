@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dwarka_app/features/tabs/profile_tab/update_passwordScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../theme/theme_utils.dart';
 import 'add_address_screen.dart';
+import 'addresses_screen.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -102,6 +104,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         centerTitle: true,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context), // Use Navigator.pop
+        ),
         actions: [
           TextButton(
             onPressed: _saveProfile,
@@ -256,7 +262,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 title: 'Manage Addresses',
                 subtitle: 'View and edit your addresses',
                 onTap: () {
-                  context.push('/profile/addresses'); // Navigate to addresses screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddressesScreen()),
+                  );
                 },
                 backgroundColor: textFieldBackgroundColor(context),
               ),
@@ -269,7 +278,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 title: 'Change Password',
                 subtitle: 'Update your account password',
                 onTap: () {
-                  context.push('/profile/update-password'); // Changed to match GoRoute path
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const UpdatePasswordScreen()),
+                  );
                 },
                 backgroundColor: textFieldBackgroundColor(context),
               ),

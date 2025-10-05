@@ -1,5 +1,9 @@
 import 'dart:io';
 
+import 'package:dwarka_app/features/tabs/profile_tab/prescription_screen.dart';
+import 'package:dwarka_app/features/tabs/profile_tab/privacy_screen.dart';
+import 'package:dwarka_app/features/tabs/profile_tab/terms_screen.dart';
+import 'package:dwarka_app/features/tabs/profile_tab/wishlist_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +13,12 @@ import '../../../../core/constants/app_styles.dart';
 import '../../../../services/auth_services.dart';
 import '../../../providers/user_provider.dart';
 import '../../theme/theme_provider.dart';
+import 'about_screen.dart';
+import 'addresses_screen.dart';
+import 'contact_screen.dart';
+import 'edit_profile.dart';
+import 'help_screen.dart';
+import 'orders_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -29,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () async {
                 Navigator.pop(context);
                 await AuthService.signOut();
-                context.go('/landing'); // ✅ matches main.dart
+                context.go('/landing');
               },
               child: const Text(
                 'Sign Out',
@@ -45,7 +55,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    // Add this line to get user data
     final userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
@@ -70,12 +79,12 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    userProvider.name, // Use provider data
+                    userProvider.name,
                     style: AppStyles.headlineMedium,
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    userProvider.email, // Use provider data
+                    userProvider.email,
                     style: AppStyles.bodyLarge.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -83,7 +92,10 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context.go('/profile/edit');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+                      );
                     },
                     child: const Text('Edit Profile'),
                   ),
@@ -99,22 +111,34 @@ class ProfileScreen extends StatelessWidget {
           _ProfileTile(
             icon: Icons.shopping_bag_outlined,
             title: 'My Orders',
-            onTap: () => context.push('/profile/orders'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const OrdersScreen()),
+            ),
           ),
           _ProfileTile(
             icon: Icons.favorite_border,
             title: 'Wishlist',
-            onTap: () => context.push('/profile/wishlist'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const WishlistScreen()),
+            ),
           ),
           _ProfileTile(
             icon: Icons.location_on_outlined,
             title: 'Addresses',
-            onTap: () => context.push('/profile/addresses'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddressesScreen()),
+            ),
           ),
           _ProfileTile(
             icon: Icons.visibility_outlined,
             title: 'Eye Prescription',
-            onTap: () => context.push('/profile/prescription'), // ✅ nested under /profile
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PrescriptionScreen()),
+            ),
           ),
 
           const SizedBox(height: 24),
@@ -136,17 +160,26 @@ class ProfileScreen extends StatelessWidget {
           _ProfileTile(
             icon: Icons.help_outline,
             title: 'Help Center',
-            onTap: () => context.push('/profile/help'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HelpScreen()),
+            ),
           ),
           _ProfileTile(
             icon: Icons.info_outline,
             title: 'About Us',
-            onTap: () => context.push('/profile/about'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AboutScreen()),
+            ),
           ),
           _ProfileTile(
             icon: Icons.phone_outlined,
             title: 'Contact Us',
-            onTap: () => context.push('/profile/contact'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ContactScreen()),
+            ),
           ),
           const SizedBox(height: 24),
 
@@ -156,12 +189,18 @@ class ProfileScreen extends StatelessWidget {
           _ProfileTile(
             icon: Icons.security_outlined,
             title: 'Privacy Policy',
-            onTap: () => context.push('/profile/privacy'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PrivacyScreen()),
+            ),
           ),
           _ProfileTile(
             icon: Icons.description_outlined,
             title: 'Terms of Service',
-            onTap: () => context.push('/profile/terms'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const TermsScreen()),
+            ),
           ),
           const SizedBox(height: 32),
 

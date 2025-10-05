@@ -29,7 +29,7 @@ dependencies:
   shared_preferences: ^2.2.2
   uuid: ^4.4.0
 
-  # Firebase - UPDATED VERSIONS
+  # Firebase
   firebase_core: ^4.1.1
   firebase_auth: ^6.1.0
   cloud_firestore: ^6.0.2

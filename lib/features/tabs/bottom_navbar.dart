@@ -12,32 +12,45 @@ class BottomNavbar extends StatefulWidget {
 
 class _BottomNavbarState extends State<BottomNavbar> {
   int _selectedIndex = 0;
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const NotificationsScreen(),
-    const TransactionsScreen(),
-    const ProfileScreen(),
+
+  // Navigator keys for each tab - essential for nested navigation
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
   ];
 
-  // Track if we need to reset to home tab
-  bool _shouldResetToHome = false;
-
   void _onItemTapped(int index) {
+    // If same tab is tapped, pop to first route
+    if (_selectedIndex == index) {
+      _navigatorKeys[index].currentState?.popUntil((route) => route.isFirst);
+    }
+
     setState(() {
       _selectedIndex = index;
-      _shouldResetToHome = false;
     });
   }
 
   // Handle back button press
   Future<bool> _onWillPop() async {
+    final currentNavigator = _navigatorKeys[_selectedIndex];
+
+    // If current tab has routes in stack, pop one
+    if (currentNavigator.currentState?.canPop() ?? false) {
+      currentNavigator.currentState?.pop();
+      return false; // Don't exit app
+    }
+
+    // If on other tab, switch to home tab
     if (_selectedIndex != 0) {
       setState(() {
         _selectedIndex = 0;
       });
-      return false; // Don't exit app, just go to home tab
+      return false; // Don't exit app
     }
-    return true; // Exit app if already on home tab
+
+    return true; // Exit app if on home tab with no routes
   }
 
   @override
@@ -48,7 +61,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: IndexedStack(
           index: _selectedIndex,
-          children: _screens,
+          children: [
+            _buildNavigator(0, const HomeScreen()),
+            _buildNavigator(1, const NotificationsScreen()),
+            _buildNavigator(2, const TransactionsScreen()),
+            _buildNavigator(3, const ProfileScreen()),
+          ],
         ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
@@ -97,9 +115,20 @@ class _BottomNavbarState extends State<BottomNavbar> {
       ),
     );
   }
+
+  Widget _buildNavigator(int index, Widget screen) {
+    return Navigator(
+      key: _navigatorKeys[index],
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) => screen,
+        );
+      },
+    );
+  }
 }
 
-// Placeholder screens replaced with proper ones
+// Placeholder screens
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 
