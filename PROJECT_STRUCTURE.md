@@ -1,4 +1,4 @@
-# 📋 **DWARKA APP - COMPREHENSIVE PROJECT REPORT**
+#  **DWARKA APP - COMPREHENSIVE PROJECT REPORT**
 
 ## **Executive Summary**
 
@@ -11,7 +11,7 @@
 
 ---
 
-## **1. Project Overview** 🎯
+## **1. Project Overview** 
 
 ### **Project Details**
 - **Name:** Dwarka App (Dwarka Eyewear)
@@ -601,29 +601,29 @@ dev_dependencies:
 ### **C. Route Definitions**
 ```dart
 // Public Routes
-/splash              → SplashScreen
-/landing             → LandingPage
-/signin              → SignInPage
-/signup              → SignUpPage
-/otp-verification    → OTPVerificationPage
+//splash              → SplashScreen
+//landing             → LandingPage
+//ignin              → SignInPage
+//signup              → SignUpPage
+//otp-verification    → OTPVerificationPage
 
 // Protected Routes
-/home                → BottomNavbar (Main app)
-/categories          → ProductListPage
-/cart                → CartPage
-/checkout            → CheckoutPage
-/category/:categoryId → CategoryPage
-/product/:productId  → ProductDetailPage
-/search?query=       → SearchPage
-/profile             → ProfilePage
+//home                → BottomNavbar (Main app)
+//categories          → ProductListPage
+//cart                → CartPage
+//checkout            → CheckoutPage
+//category/:categoryId → CategoryPage
+//product/:productId  → ProductDetailPage
+//search?query=       → SearchPage
+//profile             → ProfilePage
 
 // Nested Profile Routes
-/profile/orders           → OrdersPage
-/profile/wishlist         → WishlistPage
-/profile/update-password  → UpdatePasswordPage
-/profile/addresses        → AddressListPage
-/profile/add-address      → AddAddressPage
-/profile/edit-profile     → EditProfilePage
+//profile/orders           → OrdersPage
+//profile/wishlist         → WishlistPage
+//profile/update-password  → UpdatePasswordPage
+//profile/addresses        → AddressListPage
+//profile/add-address      → AddAddressPage
+//profile/edit-profile     → EditProfilePage
 ```
 
 ### **D. Firebase Collections**
